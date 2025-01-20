@@ -32,6 +32,7 @@ import {
 import { cn } from "@/lib/utility/cn";
 import { Avatar } from "../shared/Avatar";
 import { Navlink } from "../shared/Navlink";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -52,7 +53,7 @@ const navigation = [
   { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon, current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "#" },
+  { name: "Your profile", href: "/users/random-id/profile" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -221,12 +222,12 @@ export default function RLayout({ children }: { children: ReactNode }) {
                   >
                     {userNavigation.map((item) => (
                       <MenuItem key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       </MenuItem>
                     ))}
                   </MenuItems>
