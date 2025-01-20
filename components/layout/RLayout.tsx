@@ -21,20 +21,24 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  ClockIcon,
+  QuestionMarkCircleIcon,
+  BuildingOffice2Icon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { cn } from "@/lib/utility/cn";
+import { Avatar } from "../shared/Avatar";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+  { name: "Schedule", href: "#", icon: ClockIcon, current: false },
+  { name: "Holiday Planner", href: "#", icon: CalendarIcon, current: false },
+  { name: "Office Days", href: "#", icon: BuildingOffice2Icon, current: false },
   { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "FAQ", href: "#", icon: QuestionMarkCircleIcon, current: false },
 ];
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -86,11 +90,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 </div>
               </TransitionChild>
 
-              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+              <div className="bg-vodafone-900 flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 ring-1 ring-white/10">
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     alt="Your Company"
-                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
                     className="h-8 w-auto"
                   />
                 </div>
@@ -102,8 +106,8 @@ export default function RLayout({ children }: { children: ReactNode }) {
                           href={item.href}
                           className={cn(
                             item.current
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                              ? "bg-vodafone-800 text-white"
+                              : "text-vodafone-400 hover:bg-vodafone-800 hover:text-white",
                             "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
                           )}
                         >
@@ -123,12 +127,12 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
+        <div className="lg:bg-vodafone-900 hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:pb-4">
           <div className="flex h-16 shrink-0 items-center justify-center">
             <img
               alt="Your Company"
-              src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-              className="h-8 w-auto"
+              src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
+              className="//object-contain h-8 w-auto"
             />
           </div>
           <nav className="mt-8">
@@ -139,8 +143,8 @@ export default function RLayout({ children }: { children: ReactNode }) {
                     href={item.href}
                     className={cn(
                       item.current
-                        ? "bg-gray-800 text-white"
-                        : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                        ? "bg-vodafone-800 text-white"
+                        : "text-vodafone-400 hover:bg-vodafone-800 hover:text-white",
                       "group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold",
                     )}
                   >
@@ -203,11 +207,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 <Menu as="div" className="relative">
                   <MenuButton className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      className="size-8 rounded-full bg-gray-50"
-                    />
+                    <Avatar />
                     <span className="hidden lg:flex lg:items-center">
                       <span
                         aria-hidden="true"
