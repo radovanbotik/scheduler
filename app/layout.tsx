@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import RLayout from "@/components/layout/RLayout";
 
 const vodafone = localFont({
   src: [
@@ -41,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${vodafone.variable} font-vodafone antialiased`}>
-        {children}
+        <RLayout>{children}</RLayout>
       </body>
     </html>
   );
