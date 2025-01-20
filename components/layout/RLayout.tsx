@@ -31,6 +31,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { cn } from "@/lib/utility/cn";
 import { Avatar } from "../shared/Avatar";
+import { Navlink } from "../shared/Navlink";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -111,22 +112,12 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="-mx-2 flex-1 space-y-1">
                     {navigation.map((item) => (
-                      <li key={item.name}>
-                        <a
+                      <li key={item.name} onClick={() => setSidebarOpen(false)}>
+                        <Navlink
                           href={item.href}
-                          className={cn(
-                            item.current
-                              ? "bg-vodafone-800 text-white"
-                              : "text-vodafone-400 hover:bg-vodafone-800 hover:text-white",
-                            "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
-                          )}
-                        >
-                          <item.icon
-                            aria-hidden="true"
-                            className="size-6 shrink-0"
-                          />
-                          {item.name}
-                        </a>
+                          name={item.name}
+                          icon={item.icon}
+                        />
                       </li>
                     ))}
                   </ul>
@@ -149,18 +140,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
             <ul role="list" className="flex flex-col items-center space-y-1">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <a
+                  <Navlink
                     href={item.href}
-                    className={cn(
-                      item.current
-                        ? "bg-vodafone-800 text-white"
-                        : "text-vodafone-400 hover:bg-vodafone-800 hover:text-white",
-                      "group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold",
-                    )}
-                  >
-                    <item.icon aria-hidden="true" className="size-6 shrink-0" />
-                    <span className="sr-only">{item.name}</span>
-                  </a>
+                    className="group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold"
+                    icon={item.icon}
+                  />
                 </li>
               ))}
             </ul>
@@ -168,11 +152,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </div>
 
         <div className="lg:pl-20">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="bg-vodafone-800 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+              className="-m-2.5 p-2.5 text-white lg:hidden lg:text-gray-700"
             >
               <span className="sr-only">Open sidebar</span>
               <Bars3Icon aria-hidden="true" className="size-6" />
@@ -191,17 +175,17 @@ export default function RLayout({ children }: { children: ReactNode }) {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  className="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6"
+                  className="bg-vodafone-800 col-start-1 row-start-1 block size-full pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
                 />
                 <MagnifyingGlassIcon
                   aria-hidden="true"
-                  className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400"
+                  className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-50 lg:text-gray-400"
                 />
               </form>
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button
                   type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  className="-m-2.5 p-2.5 text-white hover:text-gray-500 lg:text-gray-400"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon aria-hidden="true" className="size-6" />
