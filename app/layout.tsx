@@ -1,15 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const vodafone = localFont({
+  src: [
+    {
+      path: "../public/fonts/vodafone/Vodafone-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/vodafone/Vodafone.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/vodafone/Vodafone-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/vodafone/Vodafone-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-vodafone",
 });
 
 export const metadata: Metadata = {
@@ -24,9 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${vodafone.variable} font-vodafone antialiased`}>
         {children}
       </body>
     </html>

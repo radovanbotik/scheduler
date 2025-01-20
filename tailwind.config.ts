@@ -12,7 +12,15 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        vodafone: ["var(--font-vodafone)"],
+      },
     },
   },
   plugins: [],
+  // safelist: [
+  //   {
+  //     pattern: /grid-cols-\[120px_repeat\(\d+,_100px\)\]/,
+  //   },
+  // ],
 } satisfies Config;
