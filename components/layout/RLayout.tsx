@@ -33,12 +33,22 @@ import { cn } from "@/lib/utility/cn";
 import { Avatar } from "../shared/Avatar";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Schedule", href: "#", icon: ClockIcon, current: false },
-  { name: "Holiday Planner", href: "#", icon: CalendarIcon, current: false },
-  { name: "Office Days", href: "#", icon: BuildingOffice2Icon, current: false },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "FAQ", href: "#", icon: QuestionMarkCircleIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
+  { name: "Schedule", href: "/schedule", icon: ClockIcon, current: false },
+  {
+    name: "Holiday Planner",
+    href: "/holiday-planner",
+    icon: CalendarIcon,
+    current: false,
+  },
+  {
+    name: "Office Days",
+    href: "/office-days",
+    icon: BuildingOffice2Icon,
+    current: false,
+  },
+  { name: "Team", href: "/team", icon: UsersIcon, current: false },
+  { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon, current: false },
 ];
 const userNavigation = [
   { name: "Your profile", href: "#" },
