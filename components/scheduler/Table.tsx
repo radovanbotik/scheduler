@@ -40,22 +40,22 @@ export async function Table() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="text-center text-3xl font-bold">
+    <div>
+      <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-3xl">
         {new Date(2025, 0).toLocaleDateString("en-US", {
           month: "long",
           year: "numeric",
         })}
-      </div>
+      </h2>
 
-      <div className="overflow-x-auto text-sm">
+      <div className="mt-10 overflow-x-auto text-sm">
         {/* LEGEND */}
         <div
           className={cn(
             "gapx-0.5 inline-grid [&>*]:border [&>*]:border-gray-300",
           )}
           style={{
-            gridTemplateColumns: `120px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
+            gridTemplateColumns: `100px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
           }}
         >
           <Cell className="sticky left-0 z-10 flex size-full bg-white px-0.5 font-bold shadow-sm">
@@ -78,7 +78,7 @@ export async function Table() {
             key={pattern.pattern_id}
             className={cn("inline-grid [&>*]:border [&>*]:border-gray-300")}
             style={{
-              gridTemplateColumns: `120px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
+              gridTemplateColumns: `100px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
             }}
           >
             <Cell className="sticky left-0 bg-white px-0.5 shadow-sm">

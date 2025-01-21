@@ -53,7 +53,7 @@ const navigation = [
   { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon, current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "/users/random-id/profile" },
+  { name: "Your profile", href: "/users/random-id/profile/settings" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -102,13 +102,14 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 </div>
               </TransitionChild>
 
-              <div className="bg-vodafone-900 flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 ring-1 ring-white/10">
-                <div className="flex h-16 shrink-0 items-center">
+              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-vodafone-900 px-6 pb-2 ring-1 ring-white/10">
+                <div className="relative flex h-16 shrink-0 items-center">
                   <img
                     alt="Your Company"
                     src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
                     className="h-8 w-auto"
                   />
+                  <Link href={"/"} className="absolute size-full" />
                 </div>
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="-mx-2 flex-1 space-y-1">
@@ -129,13 +130,14 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="lg:bg-vodafone-900 hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:pb-4">
-          <div className="flex h-16 shrink-0 items-center justify-center">
+        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-vodafone-900 lg:pb-4">
+          <div className="relative flex h-16 shrink-0 items-center justify-center">
             <img
               alt="Your Company"
               src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
               className="//object-contain h-8 w-auto"
             />
+            <Link href={"/"} className="absolute size-full" />
           </div>
           <nav className="mt-8">
             <ul role="list" className="flex flex-col items-center space-y-1">
@@ -153,7 +155,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </div>
 
         <div className="lg:pl-20">
-          <div className="bg-vodafone-800 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-vodafone-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -176,7 +178,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  className="bg-vodafone-800 col-start-1 row-start-1 block size-full pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
+                  className="col-start-1 row-start-1 block size-full bg-vodafone-800 pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
                 />
                 <MagnifyingGlassIcon
                   aria-hidden="true"

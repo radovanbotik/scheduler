@@ -1,6 +1,15 @@
-export function Avatar() {
+import { cn } from "@/lib/utility/cn";
+
+type TAvatar = { className?: string };
+
+export function Avatar({ className }: TAvatar) {
   return (
-    <span className="inline-block size-8 overflow-hidden rounded-full bg-gray-100">
+    <span
+      className={cn(
+        "inline-block size-8 overflow-hidden rounded-md bg-gray-100",
+        className,
+      )}
+    >
       <svg
         fill="currentColor"
         viewBox="0 0 24 24"
