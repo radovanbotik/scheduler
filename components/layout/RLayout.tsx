@@ -106,7 +106,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 <div className="relative flex h-16 shrink-0 items-center">
                   <img
                     alt="Your Company"
-                    src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
+                    src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455098/iot/Vodafone-logo_ezldfd.png"
                     className="h-8 w-auto"
                   />
                   <Link href={"/"} className="absolute size-full" />
@@ -130,11 +130,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-vodafone-900 lg:pb-4">
+        <div className="hidden overflow-x-hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-vodafone-900 lg:pb-4">
           <div className="relative flex h-16 shrink-0 items-center justify-center">
             <img
               alt="Your Company"
-              src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
+              src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455098/iot/Vodafone-logo_ezldfd.png"
               className="//object-contain h-8 w-auto"
             />
             <Link href={"/"} className="absolute size-full" />
@@ -147,6 +147,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                     href={item.href}
                     className="group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold"
                     icon={item.icon}
+                    tooltip="hey ho"
                   />
                 </li>
               ))}

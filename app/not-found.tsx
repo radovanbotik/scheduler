@@ -17,7 +17,7 @@ export default function NotFound() {
             <span className="sr-only">Your Company</span>
             <img
               alt=""
-              src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
+              src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455098/iot/Vodafone-logo_ezldfd.png"
               className="h-10 w-auto sm:h-12"
             />
           </a>
@@ -45,7 +45,7 @@ export default function NotFound() {
         <div className="hidden lg:relative lg:col-start-2 lg:row-start-1 lg:row-end-4 lg:block">
           <img
             alt=""
-            src="https://i.ibb.co/xLKMHnG/DALL-E-2025-01-21-09-23-49-A-futuristic-404-error-page-design-featuring-an-Internet-of-Things-Io-T-t.webp"
+            src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455055/iot/404_uuxpdr.webp"
             className="absolute inset-0 size-full object-cover"
           />
         </div>

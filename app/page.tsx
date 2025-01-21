@@ -18,7 +18,7 @@ export default function Example() {
             <div>
               <img
                 alt="Your Company"
-                src="https://logos-world.net/wp-content/uploads/2020/09/Vodafone-Symbol.png"
+                src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455098/iot/Vodafone-logo_ezldfd.png"
                 className="h-10 w-auto"
               />
               <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
@@ -181,7 +181,7 @@ export default function Example() {
         <div className="relative hidden w-0 flex-1 lg:block">
           <img
             alt=""
-            src="https://i.ibb.co/v1PDcjf/iot.webp"
+            src="https://res.cloudinary.com/dso5xe3t4/image/upload/v1737455055/iot/signin_orfah8.webp"
             className="absolute inset-0 size-full object-cover"
           />
         </div>
