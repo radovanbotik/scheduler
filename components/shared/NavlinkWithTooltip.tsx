@@ -46,16 +46,20 @@ export function NavlinkWithTooltip({
                 static
                 as={motion.div}
                 initial={{
-                  opacity: 0,
-                  scale: 0.95,
+                  // opacity: 0,
+                  // scale: 0.95,
                   clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
                 }}
                 animate={{
-                  opacity: 1,
-                  scale: 1,
+                  // opacity: 1,
+                  // scale: 1,
                   clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                exit={{
+                  // opacity: 0,
+                  // scale: 0.95,
+                  clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+                }}
               >
                 {tooltip}
               </PopoverPanel>
