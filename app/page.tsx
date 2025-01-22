@@ -129,7 +129,9 @@ export default function Example() {
                 </form>
               </div>
 
-              <div className="mt-10">
+              {/* ALTERNATIVE OPTIONS */}
+
+              {/* <div className="mt-10">
                 <div className="relative">
                   <div
                     aria-hidden="true"
@@ -174,7 +176,7 @@ export default function Example() {
                     <span className="text-sm/6 font-semibold">Google</span>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

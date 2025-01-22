@@ -33,6 +33,7 @@ import { cn } from "@/lib/utility/cn";
 import { Avatar } from "../shared/Avatar";
 import { Navlink } from "../shared/Navlink";
 import Link from "next/link";
+import { NavlinkWithTooltip } from "../shared/NavlinkWithTooltip";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -53,7 +54,8 @@ const navigation = [
   { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon, current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "/users/random-id/profile/settings" },
+  { name: "Your profile", href: "/users/random-id/profile/" },
+  { name: "Account settings", href: "/users/random-id/profile/settings" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -143,11 +145,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
             <ul role="list" className="flex flex-col items-center space-y-1">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <Navlink
+                  <NavlinkWithTooltip
                     href={item.href}
                     className="group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold"
                     icon={item.icon}
-                    tooltip="hey ho"
+                    tooltip={item.name}
                   />
                 </li>
               ))}
