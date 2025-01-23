@@ -26,141 +26,8 @@ import {
   isThisMonth,
 } from "date-fns";
 
-// const days = [
-//   { date: "2021-12-27", events: [] },
-//   { date: "2021-12-28", events: [] },
-//   { date: "2021-12-29", events: [] },
-//   { date: "2021-12-30", events: [] },
-//   { date: "2021-12-31", events: [] },
-//   { date: "2022-01-01", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-02", isCurrentMonth: true, events: [] },
-//   {
-//     date: "2022-01-03",
-//     isCurrentMonth: true,
-//     events: [
-//       {
-//         id: 1,
-//         name: "Design review",
-//         time: "10AM",
-//         datetime: "2022-01-03T10:00",
-//         href: "#",
-//       },
-//       {
-//         id: 2,
-//         name: "Sales meeting",
-//         time: "2PM",
-//         datetime: "2022-01-03T14:00",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   { date: "2022-01-04", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-05", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-06", isCurrentMonth: true, events: [] },
-//   {
-//     date: "2022-01-07",
-//     isCurrentMonth: true,
-//     events: [
-//       {
-//         id: 3,
-//         name: "Date night",
-//         time: "6PM",
-//         datetime: "2022-01-08T18:00",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   { date: "2022-01-08", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-09", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-10", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-11", isCurrentMonth: true, events: [] },
-//   {
-//     date: "2022-01-12",
-//     isCurrentMonth: true,
-//     isToday: true,
-//     events: [
-//       {
-//         id: 6,
-//         name: "Sam's birthday party",
-//         time: "2PM",
-//         datetime: "2022-01-25T14:00",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   { date: "2022-01-13", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-14", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-15", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-16", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-17", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-18", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-19", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-20", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-21", isCurrentMonth: true, events: [] },
-//   {
-//     date: "2022-01-22",
-//     isCurrentMonth: true,
-//     isSelected: true,
-//     events: [
-//       {
-//         id: 4,
-//         name: "Maple syrup museum",
-//         time: "3PM",
-//         datetime: "2022-01-22T15:00",
-//         href: "#",
-//       },
-//       {
-//         id: 5,
-//         name: "Hockey game",
-//         time: "7PM",
-//         datetime: "2022-01-22T19:00",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   { date: "2022-01-23", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-24", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-25", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-26", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-27", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-28", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-29", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-30", isCurrentMonth: true, events: [] },
-//   { date: "2022-01-31", isCurrentMonth: true, events: [] },
-//   { date: "2022-02-01", events: [] },
-//   { date: "2022-02-02", events: [] },
-//   { date: "2022-02-03", events: [] },
-//   {
-//     date: "2022-02-04",
-//     events: [
-//       {
-//         id: 7,
-//         name: "Cinema with friends",
-//         time: "9PM",
-//         datetime: "2022-02-04T21:00",
-//         href: "#",
-//       },
-//     ],
-//   },
-//   { date: "2022-02-05", events: [] },
-//   { date: "2022-02-06", events: [] },
-// ];
-// const selectedDay = days.find((day) => day.isSelected);
-
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  //   const prevMonth = () => {
-  //     setCurrentDate(
-  //       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
-  //     );
-  //   };
-
-  //   const nextMonth = () => {
-  //     setCurrentDate(
-  //       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1),
-  //     );
-  //   };
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -175,18 +42,6 @@ export default function MonthView() {
       isCurrentMonth: true,
     };
   });
-
-  //we have 42 tiles and therefore 42 days to populate
-  //we get days and count of all days in the current month
-  //get tile position of first day of the month - this depends on day: if monday it is 1, if tuesday it is 2, if wednesday it is 3, if thursday it is 4, if friday it is 5, if saturday it is 6 and if sunday it is 7
-  //this will give us information how many days from the previous month we have to include: if first day is monday 0, if first day is tuesday 1, if first day is wednesday 2, if first day is thursday 3, if first day is friday 4, if first day is saturday 5, if first day is sunday 6,
-  //now we can add count of days from current month and the days from previous month we include and this will give us count of days from the next month we need to include
-  //we can now get days from the upcoming month
-  //in the end we should generate merge all the days from previous current and next month into single array
-
-  //   function getDaysInMonth(date) {
-  //     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  //   }
 
   function prevMonth() {
     return setCurrentDate((prev) => subMonths(currentDate, 1));
@@ -216,22 +71,6 @@ export default function MonthView() {
       end: endOfCalendar,
     });
 
-    // console.log("tiles", tiles);
-    // console.log("date", date);
-    // console.log("daysInCurrentMonth", daysInCurrentMonth);
-    // console.log("startOfMonthDate", startOfMonthDate);
-    // console.log("endOfMonthDate", endOfMonthDate);
-    // console.log("firstDayOfMonthPosition", firstDayOfMonthPosition);
-    // console.log("daysFromPreviousMonth", daysFromPreviousMonth);
-    // console.log("daysFromNextMonth", daysFromNextMonth);
-    // console.log("startOfCalendar", startOfCalendar);
-    // console.log("endOfCalendar", endOfCalendar);
-    // console.log(
-    //   "allCalendarDays",
-    //   allCalendarDays,
-    //   "count",
-    //   allCalendarDays.length,
-    // );
     return allCalendarDays.map((dateObject, i) => {
       return {
         date: dateObject.toDateString(),
@@ -240,16 +79,18 @@ export default function MonthView() {
           {
             id: i + 1,
             name: "Agents",
-            time: "9PM",
+            time: "10",
             datetime: "2022-02-04T21:00",
             href: "#",
           },
         ],
+        isSelected: i === 20 ? true : false,
       };
     });
   }
 
   const dayz = getDayz(currentDate);
+  console.log(dayz);
 
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
@@ -510,7 +351,7 @@ export default function MonthView() {
                     "ml-auto",
                   )}
                 >
-                  {day.date.split("-").pop().replace(/^0/, "")}
+                  {format(day.date, "d")}
                 </time>
                 <span className="sr-only">{day.events.length} events</span>
                 {day.events.length > 0 && (

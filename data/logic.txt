@@ -1,0 +1,7 @@
+  //we have 42 tiles and therefore 42 days to populate
+  //we get days and count of all days in the current month
+  //get tile position of first day of the month - this depends on day: if monday it is 1, if tuesday it is 2, if wednesday it is 3, if thursday it is 4, if friday it is 5, if saturday it is 6 and if sunday it is 7
+  //this will give us information how many days from the previous month we have to include: if first day is monday 0, if first day is tuesday 1, if first day is wednesday 2, if first day is thursday 3, if first day is friday 4, if first day is saturday 5, if first day is sunday 6,
+  //now we can add count of days from current month and the days from previous month we include and this will give us count of days from the next month we need to include
+  //we can now get days from the upcoming month
+  //in the end we should generate merge all the days from previous current and next month into single array
