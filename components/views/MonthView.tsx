@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import {
+  addMonths,
   getDaysInMonth,
   eachDayOfInterval,
   startOfMonth,
@@ -20,6 +21,9 @@ import {
   isSameMonth,
   format,
   getDay,
+  subMonths,
+  isToday,
+  isThisMonth,
 } from "date-fns";
 
 // const days = [
@@ -146,17 +150,17 @@ import {
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const prevMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
-    );
-  };
+  //   const prevMonth = () => {
+  //     setCurrentDate(
+  //       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
+  //     );
+  //   };
 
-  const nextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1),
-    );
-  };
+  //   const nextMonth = () => {
+  //     setCurrentDate(
+  //       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1),
+  //     );
+  //   };
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -184,9 +188,17 @@ export default function MonthView() {
   //     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   //   }
 
-  function getDayz() {
+  function prevMonth() {
+    return setCurrentDate((prev) => subMonths(currentDate, 1));
+  }
+
+  function nextMonth() {
+    return setCurrentDate((prev) => addMonths(currentDate, 1));
+  }
+
+  function getDayz(date: Date) {
     const tiles = 42;
-    const date = new Date();
+
     const daysInCurrentMonth = getDaysInMonth(date);
     const startOfMonthDate = startOfMonth(date);
     const endOfMonthDate = endOfMonth(date);
@@ -227,66 +239,30 @@ export default function MonthView() {
         events: [
           {
             id: i + 1,
-            name: "Shifts",
+            name: "Agents",
             time: "9PM",
             datetime: "2022-02-04T21:00",
             href: "#",
           },
-          //   {
-          //     id: i + 1,
-          //     name: "Early Morning",
-          //     time: "9PM",
-          //     datetime: "2022-02-04T21:00",
-          //     href: "#",
-          //   },
-          //   {
-          //     id: i + 2,
-          //     name: "Morning",
-          //     time: "9PM",
-          //     datetime: "2022-02-04T21:00",
-          //     href: "#",
-          //   },
-          //   {
-          //     id: i + 3,
-          //     name: "Day",
-          //     time: "9PM",
-          //     datetime: "2022-02-04T21:00",
-          //     href: "#",
-          //   },
-          //   {
-          //     id: i + 3,
-          //     name: "Afternoon",
-          //     time: "9PM",
-          //     datetime: "2022-02-04T21:00",
-          //     href: "#",
-          //   },
-          //   {
-          //     id: i + 3,
-          //     name: "Evening",
-          //     time: "9PM",
-          //     datetime: "2022-02-04T21:00",
-          //     href: "#",
-          //   },
         ],
       };
     });
   }
 
-  getDayz();
-
-  const dayz = getDayz();
+  const dayz = getDayz(currentDate);
 
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
       <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
         <h1 className="text-base font-semibold text-gray-900">
-          <time dateTime="2022-01">January 2022</time>
+          <time dateTime="2022-01">{format(currentDate, "MMMM yyyy")}</time>
         </h1>
         <div className="flex items-center">
           <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
             <button
               type="button"
               className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+              onClick={() => prevMonth()}
             >
               <span className="sr-only">Previous month</span>
               <ChevronLeftIcon className="size-5" aria-hidden="true" />
@@ -295,12 +271,13 @@ export default function MonthView() {
               type="button"
               className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
             >
-              Today
+              {format(currentDate, "MMMM")}
             </button>
             <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
             <button
               type="button"
               className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+              onClick={() => nextMonth()}
             >
               <span className="sr-only">Next month</span>
               <ChevronRightIcon className="size-5" aria-hidden="true" />
@@ -458,19 +435,21 @@ export default function MonthView() {
               <div
                 key={day.date}
                 className={cn(
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50 text-gray-500",
+                  isThisMonth(day.date)
+                    ? "bg-white"
+                    : "bg-gray-50 text-gray-500",
                   "relative px-3 py-2",
                 )}
               >
                 <time
                   dateTime={day.date}
                   className={
-                    day.isToday
+                    isToday(day.date)
                       ? "flex size-6 items-center justify-center rounded-full bg-vodafone-600 font-semibold text-white"
                       : undefined
                   }
                 >
-                  {day.date}
+                  {format(day.date, "d")}
                   {/* {day.date.split("-").pop().replace(/^0/, "")} */}
                 </time>
                 {day.events.length > 0 && (
@@ -506,17 +485,17 @@ export default function MonthView() {
                 key={day.date}
                 type="button"
                 className={cn(
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50",
-                  (day.isSelected || day.isToday) && "font-semibold",
+                  isThisMonth(day.date) ? "bg-white" : "bg-gray-50",
+                  (day.isSelected || isToday(day.date)) && "font-semibold",
                   day.isSelected && "text-white",
-                  !day.isSelected && day.isToday && "text-vodafone-600",
+                  !day.isSelected && isToday(day.date) && "text-vodafone-600",
                   !day.isSelected &&
-                    day.isCurrentMonth &&
-                    !day.isToday &&
+                    isThisMonth(day.date) &&
+                    !isToday(day.date) &&
                     "text-gray-900",
                   !day.isSelected &&
-                    !day.isCurrentMonth &&
-                    !day.isToday &&
+                    !isThisMonth(day.date) &&
+                    !isToday(day.date) &&
                     "text-gray-500",
                   "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10",
                 )}
@@ -526,8 +505,8 @@ export default function MonthView() {
                   className={cn(
                     day.isSelected &&
                       "flex size-6 items-center justify-center rounded-full",
-                    day.isSelected && day.isToday && "bg-vodafone-600",
-                    day.isSelected && !day.isToday && "bg-gray-900",
+                    day.isSelected && isToday(day.date) && "bg-vodafone-600",
+                    day.isSelected && !isToday(day.date) && "bg-gray-900",
                     "ml-auto",
                   )}
                 >
