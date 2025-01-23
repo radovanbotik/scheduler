@@ -145,11 +145,11 @@ export default function RLayout({ children }: { children: ReactNode }) {
             <ul role="list" className="flex flex-col items-center space-y-1">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <NavlinkWithTooltip
+                  <Navlink
                     href={item.href}
                     className="group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold"
                     icon={item.icon}
-                    tooltip={item.name}
+                    // tooltip={item.name}
                   />
                 </li>
               ))}
