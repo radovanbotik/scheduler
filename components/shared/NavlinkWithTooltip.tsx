@@ -20,7 +20,7 @@ export function NavlinkWithTooltip({
   icon,
   tooltip,
 }: TNavlinkWithTooltip) {
-  const [isHovered, setIsHovered] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
