@@ -92,7 +92,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
               </div>
             </TransitionChild>
 
-            <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-vodafone-900 px-6 pb-2 ring-1 ring-white/10">
+            <div className="bg-vodafone-gray-900 flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 ring-1 ring-white/10">
               <div className="relative flex h-16 shrink-0 items-center">
                 <img
                   alt="Your Company"
@@ -120,7 +120,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
       </Dialog>
 
       {/* Static sidebar for desktop */}
-      <div className="//lg:overflow-y-auto hidden h-full overflow-hidden overflow-x-hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:bg-vodafone-900 lg:pb-4">
+      <div className="//lg:overflow-y-auto lg:bg-vodafone-gray-900 hidden h-full overflow-hidden overflow-x-hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:pb-4">
         <div className="relative flex h-16 shrink-0 items-center justify-center">
           <img
             alt="Your Company"
@@ -146,7 +146,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
       </div>
 
       <div className="lg:pl-20">
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-vodafone-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
+        <div className="bg-vodafone-gray-800 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
@@ -169,7 +169,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                className="col-start-1 row-start-1 block size-full bg-vodafone-800 pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
+                className="bg-vodafone-gray-800 col-start-1 row-start-1 block size-full pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
               />
               <MagnifyingGlassIcon
                 aria-hidden="true"

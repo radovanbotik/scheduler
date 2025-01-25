@@ -25,8 +25,8 @@ export const Navlink = forwardRef<HTMLAnchorElement, TNavlink>(function Navlink(
       href={href}
       className={cn(
         isCurrent
-          ? "bg-vodafone-800 text-white"
-          : "text-vodafone-400 hover:bg-vodafone-800 hover:text-white",
+          ? "bg-vodafone-gray-800 text-white"
+          : "text-vodafone-gray-400 hover:bg-vodafone-gray-800 hover:text-white",
         "group relative flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
         className,
       )}

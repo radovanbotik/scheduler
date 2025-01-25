@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  user_id         BigInt           @id @default(autoincrement())
+  user_id         String           @id @default(cuid())
   username        String
   email           String
   password_hash   String
@@ -28,7 +28,7 @@ model User {
 }
 
 model ShiftPattern {
-  pattern_id      BigInt           @id @default(autoincrement())
+  pattern_id      String           @id @default(cuid())
   shift_name      String
   start_time      String
   end_time        String
@@ -38,54 +38,55 @@ model ShiftPattern {
 }
 
 model Shift {
-  shift_id        BigInt           @id @default(autoincrement())
+  shift_id        String           @id @default(cuid())
   shift_date      DateTime
   pattern         ShiftPattern     @relation(fields: [pattern_id], references: [pattern_id], onDelete: Cascade)
-  pattern_id      BigInt
+  pattern_id      String
   created_at      DateTime         @default(now())
   ShiftRequests   ShiftRequest[]
   ShiftAssignments ShiftAssignment[]
 }
 
 model ShiftRequest {
-  request_id      BigInt           @id @default(autoincrement())
+  request_id      String           @id @default(cuid())
   user            User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  user_id         BigInt
+  user_id         String
   shift           Shift            @relation(fields: [shift_id], references: [shift_id], onDelete: Cascade)
-  shift_id        BigInt
+  shift_id        String
   pattern         ShiftPattern     @relation(fields: [pattern_id], references: [pattern_id], onDelete: Cascade)
-  pattern_id      BigInt
+  pattern_id      String
   status          RequestStatus
   request_date    DateTime         @default(now())
 }
 
 model UserPreference {
-  preference_id   BigInt           @id @default(autoincrement())
+  preference_id   String           @id @default(cuid())
   user            User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  user_id         BigInt
+  user_id         String
   pattern         ShiftPattern     @relation(fields: [pattern_id], references: [pattern_id], onDelete: Cascade)
-  pattern_id      BigInt
+  pattern_id      String
   created_at      DateTime         @default(now())
 }
 
 model ShiftAssignment {
-  assignment_id   BigInt           @id @default(autoincrement())
+  assignment_id   String           @id @default(cuid())
   user            User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  user_id         BigInt
+  user_id         String
   shift           Shift            @relation(fields: [shift_id], references: [shift_id], onDelete: Cascade)
-  shift_id        BigInt
+  shift_id        String
   shift_role      ShiftRole
 }
 
 model ShiftLimit {
   user            User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  user_id         BigInt           @id
+  user_id         String           @id
   month_year      DateTime
   request_count   Int
   request_limit   Int
 }
 
 // Enums
+
 enum UserRole {
   admin
   user

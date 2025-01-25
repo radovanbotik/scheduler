@@ -37,3 +37,16 @@ export const shiftPatterns: TPattern[] = [
     end_time: "06:30",
   },
 ];
+
+async function getShifts() {
+  try {
+    const response = await fetch("/api/shiftpatterns");
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}

@@ -17,44 +17,42 @@ import {
   subMonths,
   isToday,
   isThisMonth,
+  formatISO,
 } from "date-fns";
 import { DayHeader } from "./DayHeader";
 import { Header } from "./Header";
+import { ClockIcon } from "@heroicons/react/24/outline";
+
+type TDay2 = {
+  date: string;
+
+  shifts: {
+    id: string;
+    name: string;
+    agents: {}[];
+  }[];
+};
 
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<{
-    date: string;
-    isCurrentMonth: boolean;
-    events: {
-      id: number;
-      name: string;
-      time: string;
-      datetime: string;
-      href: string;
-    }[];
-    isSelected: boolean;
-  }>();
+  const [selectedDay, setSelectedDay] = useState<TDay2>();
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
     const endDate = endOfMonth(date);
     return eachDayOfInterval({ start: startDate, end: endDate });
   }
-  const onlyDays = getDaysInMonth(new Date());
 
-  function getDayz(date: Date) {
-    const tiles = 42;
+  function getDayz(date: Date): TDay2[] {
+    const TILES = 42;
 
     const daysInCurrentMonth = getDaysInMonth(date);
     const startOfMonthDate = startOfMonth(date);
     const endOfMonthDate = endOfMonth(date);
     const firstDayOfMonthPosition = getDay(startOfMonthDate);
-    const lastDayofMonthPosition =
-      firstDayOfMonthPosition + daysInCurrentMonth.length;
     const daysFromPreviousMonth = firstDayOfMonthPosition - 1;
     const daysFromNextMonth =
-      42 - daysInCurrentMonth.length - daysFromPreviousMonth;
+      TILES - daysInCurrentMonth.length - daysFromPreviousMonth;
 
     const startOfCalendar = subDays(startOfMonthDate, daysFromPreviousMonth);
     const endOfCalendar = addDays(endOfMonthDate, daysFromNextMonth);
@@ -66,17 +64,18 @@ export default function MonthView() {
     return allCalendarDays.map((dateObject, i) => {
       return {
         date: dateObject.toDateString(),
-        isCurrentMonth: false,
-        events: [
+
+        shifts: [
+          { id: "earlyMorning", name: "Early Morning", agents: [{}, {}, {}] },
+          { id: "morning", name: "Morning", agents: [{}] },
           {
-            id: i + 1,
-            name: "Agents",
-            time: "10",
-            datetime: "2022-02-04T21:00",
-            href: "#",
+            id: "standardDay",
+            name: "Standard Day",
+            agents: [{}, {}, {}, {}, {}],
           },
+          { id: "afternoon", name: "Afternoon", agents: [{}, {}, {}] },
+          { id: "night", name: "Night", agents: [{}, {}, {}] },
         ],
-        isSelected: i === 20 ? true : false,
       };
     });
   }
@@ -88,27 +87,40 @@ export default function MonthView() {
   function nextMonth(currentDate: Date) {
     return setCurrentDate((prev) => addMonths(currentDate, 1));
   }
+
+  async function getShiftPatterns() {
+    try {
+      const response = await fetch("/api/shiftpatterns");
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  async function getShifts(date: Date) {
+    const dateISO = date.getTime();
+    try {
+      const response = await fetch(`/api/getShifts?date=${date.toISOString()}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   const dayz = getDayz(currentDate);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/shiftpatterns");
-        console.log(response);
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+    getShifts(currentDate);
+    getShiftPatterns();
   }, [currentDate]);
-
-  console.log(selectedDay);
 
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
@@ -117,21 +129,23 @@ export default function MonthView() {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <div className="//max-h-[400px] //overflow-y-scroll relative shadow ring-1 ring-black/5 lg:flex lg:flex-auto lg:flex-col">
+      <div className="relative h-[calc(100vh-181px)] overflow-y-scroll shadow ring-1 ring-black/5 lg:flex lg:flex-auto lg:flex-col">
         <DayHeader />
-        <div className="flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
-          <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
+        <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
+          {/* DESKTOP */}
+          <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
             {dayz.map((day) => (
               <div
                 key={day.date}
                 className={cn(
-                  isThisMonth(day.date)
+                  isSameMonth(day.date, currentDate)
                     ? "bg-white"
-                    : "bg-gray-50 text-gray-500",
-                  "relative px-3 py-2",
+                    : "//bg-gradient-to-l //to-vodafone-200 //from-vodafone-100 bg-vodafone-gray-50 text-gray-500",
+                  "relative space-y-1 px-3 py-2",
                 )}
                 onClick={() => setSelectedDay((prev) => day)}
               >
+                {/* DISPLAY DATE - FORMAT 'd' */}
                 <time
                   dateTime={day.date}
                   className={
@@ -141,11 +155,47 @@ export default function MonthView() {
                   }
                 >
                   {format(day.date, "d")}
-                  {/* {day.date.split("-").pop().replace(/^0/, "")} */}
                 </time>
-                {day.events.length > 0 && (
+                {/* DISPLAY SHIFTS AND AGENT COUNT */}
+                {day.shifts && (
+                  <div className="">
+                    {day.shifts.map((shift) => (
+                      <a
+                        key={shift.id}
+                        href={"agents"}
+                        className={cn(
+                          "//px-3 group flex",
+
+                          //   shift.id === "earlyMorning" &&
+                          //     "bg-orange-100 text-orange-500 group-hover:bg-orange-200 group-hover:text-orange-600",
+                          //   shift.id === "morning" &&
+                          //     "bg-sky-100 text-sky-500 group-hover:bg-sky-200 group-hover:text-sky-600",
+                          //   shift.id === "standardDay" &&
+                          //     "bg-green-100 text-green-500 group-hover:bg-green-200 group-hover:text-green-600",
+                          //   shift.id === "afternoon" &&
+                          //     "bg-yellow-100 text-yellow-500 group-hover:bg-yellow-200 group-hover:text-yellow-600",
+                          //   shift.id === "night" &&
+                          //     "bg-stone-100 text-stone-500 group-hover:bg-stone-200 group-hover:text-stone-600",
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "flex-auto truncate font-medium text-gray-900 group-hover:text-vodafone-600",
+                          )}
+                        >
+                          {shift.name}
+                        </div>
+                        <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
+                          {shift.agents.length}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* {day.events && day.events.length > 0 && (
                   <ol className="mt-2">
-                    {day.events.slice(0, 5).map((event) => (
+                    {day.events.slice(0, 2).map((event) => (
                       <li key={event.id}>
                         <a href={event.href} className="group flex">
                           <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-vodafone-600">
@@ -160,17 +210,18 @@ export default function MonthView() {
                         </a>
                       </li>
                     ))}
-                    {day.events.length > 5 && (
+                    {day.events.length > 2 && (
                       <li className="text-gray-500">
                         + {day.events.length - 2} more
                       </li>
                     )}
                   </ol>
-                )}
+                )} */}
               </div>
             ))}
           </div>
-          <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
+          {/*  MOBILE VIEW */}
+          {/* <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
             {dayz.map((day) => (
               <button
                 key={day.date}
@@ -210,8 +261,10 @@ export default function MonthView() {
                 >
                   {format(day.date, "d")}
                 </time>
-                <span className="sr-only">{day.events.length} events</span>
-                {day.events.length > 0 && (
+                {day.events && (
+                  <span className="sr-only">{day.events.length} events</span>
+                )}
+                {day.events && day.events.length > 0 && (
                   <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
                     {day.events.map((event) => (
                       <span
@@ -223,10 +276,10 @@ export default function MonthView() {
                 )}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
-      {/* {selectedDay?.events.length > 0 && (
+      {/* {selectedDay && selectedDay?.events.length > 0 && (
         <div className="px-4 py-10 sm:px-6 lg:hidden">
           <ol className="divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black/5">
             {selectedDay.events.map((event) => (
