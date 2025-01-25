@@ -9,8 +9,6 @@ export async function GET(request: NextRequest) {
   const firstDayInMonth = startOfMonth(date);
   const lastDayInMonth = lastDayOfMonth(date);
 
-  console.log(firstDayInMonth, lastDayInMonth);
-
   try {
     const shifts = await prisma.shift.findMany({
       where: {
@@ -19,8 +17,15 @@ export async function GET(request: NextRequest) {
           lte: lastDayInMonth,
         },
       },
+      select: {
+        ShiftAssignments: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
-    return NextResponse.json({ shifts: shifts }, { status: 200 });
+    return NextResponse.json(shifts, { status: 200 });
   } catch (error) {
     console.error("Database query error:", error);
     return NextResponse.json(

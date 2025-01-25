@@ -5,7 +5,6 @@ import { cn } from "@/lib/utility/cn";
 import { useEffect, useState } from "react";
 import {
   addMonths,
-  getDaysInMonth,
   eachDayOfInterval,
   startOfMonth,
   endOfMonth,
@@ -36,6 +35,7 @@ type TDay2 = {
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<TDay2>();
+  const [calendar, setCalendar] = useState();
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -43,14 +43,17 @@ export default function MonthView() {
     return eachDayOfInterval({ start: startDate, end: endDate });
   }
 
-  function getDayz(date: Date): TDay2[] {
+  async function createCalendar(date: Date) {
     const TILES = 42;
-
+    const shiftPatterns = await getShiftPatterns();
+    const shifts = await getShifts(date);
+    console.log(shifts);
     const daysInCurrentMonth = getDaysInMonth(date);
     const startOfMonthDate = startOfMonth(date);
     const endOfMonthDate = endOfMonth(date);
     const firstDayOfMonthPosition = getDay(startOfMonthDate);
-    const daysFromPreviousMonth = firstDayOfMonthPosition - 1;
+    // const daysFromPreviousMonth = firstDayOfMonthPosition - 1;
+    const daysFromPreviousMonth = (firstDayOfMonthPosition + 6) % 7;
     const daysFromNextMonth =
       TILES - daysInCurrentMonth.length - daysFromPreviousMonth;
 
@@ -61,24 +64,15 @@ export default function MonthView() {
       end: endOfCalendar,
     });
 
-    return allCalendarDays.map((dateObject, i) => {
+    const result = allCalendarDays.map((dateObject, i) => {
       return {
         date: dateObject.toDateString(),
-
-        shifts: [
-          { id: "earlyMorning", name: "Early Morning", agents: [{}, {}, {}] },
-          { id: "morning", name: "Morning", agents: [{}] },
-          {
-            id: "standardDay",
-            name: "Standard Day",
-            agents: [{}, {}, {}, {}, {}],
-          },
-          { id: "afternoon", name: "Afternoon", agents: [{}, {}, {}] },
-          { id: "night", name: "Night", agents: [{}, {}, {}] },
-        ],
+        shiftPatterns: shiftPatterns,
       };
     });
+    setCalendar(result);
   }
+  //   console.log(calendar);
 
   function prevMonth(currentDate: Date) {
     return setCurrentDate((prev) => subMonths(currentDate, 1));
@@ -95,33 +89,30 @@ export default function MonthView() {
         throw new Error("Failed to fetch data");
       }
       const result = await response.json();
-      console.log(result);
+      return result;
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
   async function getShifts(date: Date) {
-    const dateISO = date.getTime();
     try {
       const response = await fetch(`/api/getShifts?date=${date.toISOString()}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const result = await response.json();
-      console.log(result);
+      return result;
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  const dayz = getDayz(currentDate);
-
   useEffect(() => {
-    getShifts(currentDate);
-    getShiftPatterns();
+    createCalendar(currentDate);
   }, [currentDate]);
 
+  //   return <>haha</>;
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
       <Header
@@ -134,7 +125,7 @@ export default function MonthView() {
         <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
           {/* DESKTOP */}
           <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-            {dayz.map((day) => (
+            {calendar?.map((day) => (
               <div
                 key={day.date}
                 className={cn(
@@ -157,11 +148,11 @@ export default function MonthView() {
                   {format(day.date, "d")}
                 </time>
                 {/* DISPLAY SHIFTS AND AGENT COUNT */}
-                {day.shifts && (
+                {day?.shiftPatterns && (
                   <div className="">
-                    {day.shifts.map((shift) => (
+                    {day?.shiftPatterns.map((shiftPattern) => (
                       <a
-                        key={shift.id}
+                        key={shiftPattern.pattern_id}
                         href={"agents"}
                         className={cn(
                           "//px-3 group flex",
@@ -183,10 +174,10 @@ export default function MonthView() {
                             "flex-auto truncate font-medium text-gray-900 group-hover:text-vodafone-600",
                           )}
                         >
-                          {shift.name}
+                          {shiftPattern.shift_name}
                         </div>
                         <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
-                          {shift.agents.length}
+                          {/* {shift.agents.length} */}0
                         </span>
                       </a>
                     ))}
