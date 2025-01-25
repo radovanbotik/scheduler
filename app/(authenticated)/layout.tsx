@@ -2,6 +2,7 @@
 // import "./globals.css";
 
 import RLayout from "@/components/layout/RLayout";
+import Container from "@/components/shared/Container";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -14,8 +15,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <RLayout>{children}</RLayout>
-    </div>
+    // <Container>
+    <RLayout>{children}</RLayout>
+    // </Container>
   );
 }
