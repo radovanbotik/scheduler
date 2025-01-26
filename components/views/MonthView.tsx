@@ -24,6 +24,8 @@ import { Header } from "./Header";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { Shift, ShiftPattern } from "@prisma/client";
 import { ShiftWithDetails } from "@/app/api/getShifts/route";
+import { Modal } from "../shared/Modal";
+import AssignmentList from "./AssignmentList";
 
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -35,6 +37,7 @@ export default function MonthView() {
       shifts?: ShiftWithDetails[];
     }[]
   >([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -130,103 +133,104 @@ export default function MonthView() {
   }, [currentDate]);
 
   return (
-    <div className="lg:flex lg:h-full lg:flex-col">
-      <Header
-        currentDate={currentDate}
-        prevMonth={prevMonth}
-        nextMonth={nextMonth}
-      />
-      <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-scroll">
-        <DayHeader />
-        <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
-          {/* DESKTOP */}
-          <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-            {calendar?.map((day) => (
-              <div
-                key={format(day.date, "yyyy-MM-dd")}
-                className={cn(
-                  isSameMonth(day.date, currentDate)
-                    ? "bg-white"
-                    : "//bg-gradient-to-l //to-vodafone-200 //from-vodafone-100 bg-vodafone-gray-50 text-gray-500",
-                  "relative space-y-1 px-3 py-2",
-                )}
-                // onClick={() => setSelectedDay((prev) => day.date)}
-              >
-                {/* DISPLAY DATE - FORMAT 'd' */}
-                <time
-                  dateTime={format(day.date, "yyyy-MM-dd")}
-                  className={
-                    isToday(day.date)
-                      ? "flex size-6 items-center justify-center rounded-full bg-vodafone-600 font-semibold text-white"
-                      : undefined
-                  }
-                >
-                  {format(day.date, "d")}
-                </time>
-                {/* DISPLAY SHIFTS AND AGENT COUNT */}
-                {day?.shiftPatterns && (
-                  <div className="">
-                    {/* {day.date} */}
-                    {day?.shiftPatterns.map((shiftPattern) => (
-                      <a
-                        key={shiftPattern.pattern_id}
-                        href={"agents"}
-                        className={cn("//px-3 group flex")}
-                      >
-                        <div
-                          className={cn(
-                            "flex-auto truncate font-medium text-gray-900 group-hover:text-vodafone-600",
-                          )}
-                        >
-                          {shiftPattern.shift_name}
-                        </div>
-                        <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
-                          {day?.shifts?.find(
-                            (shift) =>
-                              shift.pattern_id === shiftPattern.pattern_id,
-                          )?.ShiftAssignments.length ?? 0}
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          {/*  MOBILE VIEW */}
-          <div className="grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
-            {calendar.map((day) => (
-              <button
-                key={format(day.date, "yyyy-MM-dd")}
-                type="button"
-                className={cn(
-                  isSameMonth(day.date, currentDate)
-                    ? "bg-white"
-                    : "bg-gray-50",
-                  isToday(day.date) && "font-semibold",
-
-                  isToday(day.date) && "text-vodafone-600",
-                  isSameMonth(day.date, currentDate) &&
-                    !isToday(day.date) &&
-                    "text-gray-900",
-                  !isSameMonth(day.date, currentDate) &&
-                    !isToday(day.date) &&
-                    "text-gray-500",
-                  "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10",
-                )}
-              >
-                <time
-                  dateTime={format(day.date, "yyyy-MM-dd")}
+    <>
+      <div className="lg:flex lg:h-full lg:flex-col">
+        <Header
+          currentDate={currentDate}
+          prevMonth={prevMonth}
+          nextMonth={nextMonth}
+        />
+        <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-scroll">
+          <DayHeader />
+          <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
+            {/* DESKTOP */}
+            <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
+              {calendar?.map((day) => (
+                <div
+                  key={format(day.date, "yyyy-MM-dd")}
                   className={cn(
-                    "flex size-6 items-center justify-center rounded-full",
-                    isToday(day.date) && "bg-vodafone-600 text-white",
-                    !isToday(day.date) && "bg-gray-900 text-white",
-                    "ml-auto",
+                    isSameMonth(day.date, currentDate)
+                      ? "bg-white"
+                      : "//bg-gradient-to-l //to-vodafone-200 //from-vodafone-100 bg-vodafone-gray-50 text-gray-500",
+                    "relative space-y-1 px-3 py-2",
+                  )}
+                  // onClick={() => setSelectedDay((prev) => day.date)}
+                >
+                  {/* DISPLAY DATE - FORMAT 'd' */}
+                  <time
+                    dateTime={format(day.date, "yyyy-MM-dd")}
+                    className={
+                      isToday(day.date)
+                        ? "flex size-6 items-center justify-center rounded-full bg-vodafone-600 font-semibold text-white"
+                        : undefined
+                    }
+                  >
+                    {format(day.date, "d")}
+                  </time>
+                  {/* DISPLAY SHIFTS AND AGENT COUNT */}
+                  {day?.shiftPatterns && (
+                    <div className="" onClick={() => setIsOpen(true)}>
+                      {/* {day.date} */}
+                      {day?.shiftPatterns.map((shiftPattern) => (
+                        <button
+                          key={shiftPattern.pattern_id}
+                          //   href={"agents"}
+                          className={cn("//px-3 group flex w-full")}
+                        >
+                          <div
+                            className={cn(
+                              "flex-auto truncate text-start font-medium text-gray-900 group-hover:text-vodafone-600",
+                            )}
+                          >
+                            {shiftPattern.shift_name}
+                          </div>
+                          <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
+                            {day?.shifts?.find(
+                              (shift) =>
+                                shift.pattern_id === shiftPattern.pattern_id,
+                            )?.ShiftAssignments.length ?? 0}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            {/*  MOBILE VIEW */}
+            <div className="grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
+              {calendar.map((day) => (
+                <button
+                  key={format(day.date, "yyyy-MM-dd")}
+                  type="button"
+                  className={cn(
+                    isSameMonth(day.date, currentDate)
+                      ? "bg-white"
+                      : "bg-gray-50",
+                    isToday(day.date) && "font-semibold",
+
+                    isToday(day.date) && "text-vodafone-600",
+                    isSameMonth(day.date, currentDate) &&
+                      !isToday(day.date) &&
+                      "text-gray-900",
+                    !isSameMonth(day.date, currentDate) &&
+                      !isToday(day.date) &&
+                      "text-gray-500",
+                    "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10",
                   )}
                 >
-                  {format(day.date, "d")}
-                </time>
-                {/* {day.events && (
+                  <time
+                    dateTime={format(day.date, "yyyy-MM-dd")}
+                    className={cn(
+                      "flex size-6 items-center justify-center rounded-full",
+                      isToday(day.date) && "bg-vodafone-600 text-white",
+                      !isToday(day.date) && "bg-gray-900 text-white",
+                      "ml-auto",
+                    )}
+                  >
+                    {format(day.date, "d")}
+                  </time>
+                  {/* {day.events && (
                   <span className="sr-only">{day.events.length} events</span>
                 )}
                 {day.events && day.events.length > 0 && (
@@ -239,11 +243,20 @@ export default function MonthView() {
                     ))}
                   </span>
                 )} */}
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Wednesday 25th January"
+        description="Morning Shift"
+      >
+        <AssignmentList />
+      </Modal>
+    </>
   );
 }
