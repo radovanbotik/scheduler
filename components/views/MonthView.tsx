@@ -21,6 +21,7 @@ import {
 import { DayHeader } from "./DayHeader";
 import { Header } from "./Header";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import { ShiftPattern } from "@prisma/client";
 
 type TDay2 = {
   date: string;
@@ -34,8 +35,20 @@ type TDay2 = {
 
 export default function MonthView() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<TDay2>();
-  const [calendar, setCalendar] = useState();
+  const [selectedDay, setSelectedDay] = useState<string>();
+  const [calendar, setCalendar] = useState<
+    {
+      date: string;
+      shiftPatterns:
+        | {
+            pattern_id: string;
+            shift_name: string;
+            start_time: string;
+            end_time: string;
+          }[]
+        | undefined;
+    }[]
+  >();
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -82,13 +95,13 @@ export default function MonthView() {
     return setCurrentDate((prev) => addMonths(currentDate, 1));
   }
 
-  async function getShiftPatterns() {
+  async function getShiftPatterns(): Promise<ShiftPattern[] | undefined> {
     try {
       const response = await fetch("/api/shiftpatterns");
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-      const result = await response.json();
+      const result: ShiftPattern[] = await response.json();
       return result;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -134,7 +147,7 @@ export default function MonthView() {
                     : "//bg-gradient-to-l //to-vodafone-200 //from-vodafone-100 bg-vodafone-gray-50 text-gray-500",
                   "relative space-y-1 px-3 py-2",
                 )}
-                onClick={() => setSelectedDay((prev) => day)}
+                onClick={() => setSelectedDay((prev) => day.date)}
               >
                 {/* DISPLAY DATE - FORMAT 'd' */}
                 <time
