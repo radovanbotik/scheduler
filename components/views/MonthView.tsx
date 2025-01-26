@@ -38,6 +38,14 @@ export default function MonthView() {
     }[]
   >([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedShift, setSelectedShift] = useState<
+    ShiftWithDetails | undefined
+  >();
+
+  function openModal(shift: ShiftWithDetails) {
+    setSelectedShift(shift);
+    setIsOpen(true);
+  }
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -132,6 +140,8 @@ export default function MonthView() {
     })();
   }, [currentDate]);
 
+  console.log(selectedShift);
+
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
@@ -169,13 +179,20 @@ export default function MonthView() {
                   </time>
                   {/* DISPLAY SHIFTS AND AGENT COUNT */}
                   {day?.shiftPatterns && (
-                    <div className="" onClick={() => setIsOpen(true)}>
-                      {/* {day.date} */}
+                    <div className="">
                       {day?.shiftPatterns.map((shiftPattern) => (
                         <button
                           key={shiftPattern.pattern_id}
-                          //   href={"agents"}
                           className={cn("//px-3 group flex w-full")}
+                          onClick={() => {
+                            const selectedShift = day.shifts?.find(
+                              (shift) =>
+                                shift.pattern_id === shiftPattern.pattern_id,
+                            );
+                            console.log(selectedShift);
+                            if (!selectedShift) return;
+                            openModal(selectedShift);
+                          }}
                         >
                           <div
                             className={cn(
@@ -249,14 +266,16 @@ export default function MonthView() {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Wednesday 25th January"
-        description="Morning Shift"
-      >
-        <AssignmentList />
-      </Modal>
+      {selectedShift && (
+        <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title={format(selectedShift?.shift_date, "iiii do LLLL yyyy")}
+          description={`${selectedShift.pattern.shift_name} Shift:  ${selectedShift.pattern.start_time} - ${selectedShift.pattern.end_time}`}
+        >
+          <AssignmentList />
+        </Modal>
+      )}
     </>
   );
 }
