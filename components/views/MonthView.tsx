@@ -17,6 +17,7 @@ import {
   isToday,
   isThisMonth,
   formatISO,
+  isSameDay,
 } from "date-fns";
 import { DayHeader } from "./DayHeader";
 import { Header } from "./Header";
@@ -30,17 +31,10 @@ export default function MonthView() {
   const [calendar, setCalendar] = useState<
     {
       date: Date;
-      shiftPatterns:
-        | {
-            pattern_id: string;
-            shift_name: string;
-            start_time: string;
-            end_time: string;
-          }[]
-        | undefined;
+      shiftPatterns?: ShiftPattern[];
+      shifts?: ShiftWithDetails[];
     }[]
-  >();
-  const [shifts, setShifts] = useState<ShiftWithDetails[] | undefined>();
+  >([]);
 
   function getDaysInMonth(date: Date) {
     const startDate = startOfMonth(date);
@@ -50,11 +44,14 @@ export default function MonthView() {
 
   async function buildCalendar(date: Date) {
     // fetch everything in parallel
-    const [shiftPatterns, shifts] = await Promise.all([
+    const [patterns, shifts] = await Promise.all([
       getShiftPatterns(),
       getShifts(date),
     ]);
-
+    if (!patterns || !shifts) {
+      // If either fetch fails, bail out. You can add better error handling if needed.
+      return [];
+    }
     const TILES = 42;
 
     const daysInCurrentMonth = getDaysInMonth(date);
@@ -73,17 +70,20 @@ export default function MonthView() {
       end: endOfCalendar,
     });
 
-    // store as Date objects
-    const result = allCalendarDays.map((dayDate) => {
+    const calendarResult = allCalendarDays.map((calendarDay) => {
+      const dailyShifts = shifts.filter((shift) => {
+        return isSameDay(shift.shift_date, calendarDay);
+      });
+
       return {
-        date: dayDate,
-        shiftPatterns,
-        // if you want, you can filter shifts relevant to that date
-        // or do that later in the rendering
+        date: calendarDay,
+        shiftPatterns: patterns,
+        shifts: dailyShifts,
       };
     });
 
-    return { calendarDays: result, shifts };
+    console.log(calendarResult);
+    return calendarResult;
   }
 
   function prevMonth(currentDate: Date) {
@@ -116,8 +116,6 @@ export default function MonthView() {
         throw new Error("Failed to fetch data");
       }
       const result: ShiftWithDetails[] = await response.json();
-      console.log(result);
-      setShifts(result);
       return result;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -126,13 +124,11 @@ export default function MonthView() {
 
   useEffect(() => {
     (async () => {
-      const { calendarDays, shifts } = await buildCalendar(currentDate);
-      setCalendar(calendarDays);
-      setShifts(shifts);
+      const data = await buildCalendar(currentDate);
+      setCalendar(data || []);
     })();
   }, [currentDate]);
 
-  //   return <>haha</>;
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
       <Header
@@ -185,13 +181,10 @@ export default function MonthView() {
                           {shiftPattern.shift_name}
                         </div>
                         <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
-                          {shifts?.find(
+                          {day?.shifts?.find(
                             (shift) =>
-                              shift.pattern_id === shiftPattern.pattern_id &&
-                              format(shift.shift_date, "yyyy-MM-dd") ===
-                                format(day.date, "yyyy-MM-dd"),
+                              shift.pattern_id === shiftPattern.pattern_id,
                           )?.ShiftAssignments.length ?? 0}
-                          {/* {shiftPattern.pattern_id} */}
                         </span>
                       </a>
                     ))}
