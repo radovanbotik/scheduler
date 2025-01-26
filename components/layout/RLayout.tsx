@@ -18,6 +18,7 @@ import {
   ChartPieIcon,
   DocumentDuplicateIcon,
   FolderIcon,
+  ChevronRightIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
@@ -34,6 +35,11 @@ import { Avatar } from "../shared/Avatar";
 import { Navlink } from "../shared/Navlink";
 import Link from "next/link";
 import { NavlinkWithTooltip } from "../shared/NavlinkWithTooltip";
+
+const pages = [
+  { name: "Projects", href: "#", current: false },
+  { name: "Project Nero", href: "#", current: true },
+];
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -176,6 +182,29 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-50 lg:text-gray-400"
               />
             </form>
+            {/* <nav aria-label="Breadcrumb" className="flex flex-1">
+              <ol role="list" className="flex items-center space-x-4">
+                {pages.map((page, i) => (
+                  <li key={page.name}>
+                    <div className="flex items-center">
+                      {i >= 1 && (
+                        <ChevronRightIcon
+                          aria-hidden="true"
+                          className="size-5 shrink-0 text-gray-400"
+                        />
+                      )}
+                      <a
+                        href={page.href}
+                        aria-current={page.current ? "page" : undefined}
+                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      >
+                        {page.name}
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </nav> */}
             <div className="flex items-center gap-x-4 lg:gap-x-6">
               <button
                 type="button"
