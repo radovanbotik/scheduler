@@ -150,7 +150,7 @@ export default function MonthView() {
           prevMonth={prevMonth}
           nextMonth={nextMonth}
         />
-        <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-scroll">
+        <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
           <DayHeader />
           <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
             {/* DESKTOP */}

@@ -2,6 +2,7 @@ import { ShiftWithDetails } from "@/app/api/getShifts/route";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "../shared/Avatar";
+import Link from "next/link";
 
 const people = [
   {
@@ -158,15 +159,15 @@ export default function AssignmentList({ ShiftAssignments }: ShiftWithDetails) {
                 className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 <MenuItem>
-                  <a
-                    href="#"
+                  <Link
+                    href={"/users/random-id/profile"}
                     className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                   >
                     View profile
                     <span className="sr-only">
                       , {assignment.user.username}
                     </span>
-                  </a>
+                  </Link>
                 </MenuItem>
                 <MenuItem>
                   <a
