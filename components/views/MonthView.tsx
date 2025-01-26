@@ -136,7 +136,7 @@ export default function MonthView() {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <div className="relative h-[calc(100vh-181px)] overflow-y-scroll shadow ring-1 ring-black/5 lg:flex lg:flex-auto lg:flex-col">
+      <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-scroll">
         <DayHeader />
         <div className="isolate flex bg-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
           {/* DESKTOP */}
@@ -190,76 +190,43 @@ export default function MonthView() {
                     ))}
                   </div>
                 )}
-
-                {/* {day.events && day.events.length > 0 && (
-                  <ol className="mt-2">
-                    {day.events.slice(0, 2).map((event) => (
-                      <li key={event.id}>
-                        <a href={event.href} className="group flex">
-                          <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-vodafone-600">
-                            {event.name}
-                          </p>
-                          <time
-                            dateTime={event.datetime}
-                            className="ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block"
-                          >
-                            {event.time}
-                          </time>
-                        </a>
-                      </li>
-                    ))}
-                    {day.events.length > 2 && (
-                      <li className="text-gray-500">
-                        + {day.events.length - 2} more
-                      </li>
-                    )}
-                  </ol>
-                )} */}
               </div>
             ))}
           </div>
           {/*  MOBILE VIEW */}
-          {/* <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
-            {dayz.map((day) => (
+          <div className="grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
+            {calendar.map((day) => (
               <button
-                key={day.date}
+                key={format(day.date, "yyyy-MM-dd")}
                 type="button"
                 className={cn(
-                  isThisMonth(day.date) ? "bg-white" : "bg-gray-50",
-                  (selectedDay?.date === day.date || isToday(day.date)) &&
-                    "font-semibold",
-                  selectedDay?.date === day.date && "text-white",
-                  selectedDay?.date !== day.date &&
-                    isToday(day.date) &&
-                    "text-vodafone-600",
-                  selectedDay?.date !== day.date &&
-                    isThisMonth(day.date) &&
+                  isSameMonth(day.date, currentDate)
+                    ? "bg-white"
+                    : "bg-gray-50",
+                  isToday(day.date) && "font-semibold",
+
+                  isToday(day.date) && "text-vodafone-600",
+                  isSameMonth(day.date, currentDate) &&
                     !isToday(day.date) &&
                     "text-gray-900",
-                  selectedDay?.date !== day.date &&
-                    !isThisMonth(day.date) &&
+                  !isSameMonth(day.date, currentDate) &&
                     !isToday(day.date) &&
                     "text-gray-500",
                   "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10",
                 )}
               >
                 <time
-                  dateTime={day.date}
+                  dateTime={format(day.date, "yyyy-MM-dd")}
                   className={cn(
-                    selectedDay?.date === day.date &&
-                      "flex size-6 items-center justify-center rounded-full",
-                    selectedDay?.date === day.date &&
-                      isToday(day.date) &&
-                      "bg-vodafone-600",
-                    selectedDay?.date === day.date &&
-                      !isToday(day.date) &&
-                      "bg-gray-900",
+                    "flex size-6 items-center justify-center rounded-full",
+                    isToday(day.date) && "bg-vodafone-600 text-white",
+                    !isToday(day.date) && "bg-gray-900 text-white",
                     "ml-auto",
                   )}
                 >
                   {format(day.date, "d")}
                 </time>
-                {day.events && (
+                {/* {day.events && (
                   <span className="sr-only">{day.events.length} events</span>
                 )}
                 {day.events && day.events.length > 0 && (
@@ -271,10 +238,10 @@ export default function MonthView() {
                       />
                     ))}
                   </span>
-                )}
+                )} */}
               </button>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
