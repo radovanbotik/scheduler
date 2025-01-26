@@ -271,9 +271,17 @@ export default function MonthView() {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           title={format(selectedShift?.shift_date, "iiii do LLLL yyyy")}
-          description={`${selectedShift.pattern.shift_name} Shift:  ${selectedShift.pattern.start_time} - ${selectedShift.pattern.end_time}`}
+          description={
+            <>
+              <p className="">{selectedShift.pattern.shift_name} Shift</p>
+              <p className="text-sm">
+                {selectedShift.pattern.start_time} -{" "}
+                {selectedShift.pattern.end_time}
+              </p>
+            </>
+          }
         >
-          <AssignmentList />
+          <AssignmentList {...selectedShift} />
         </Modal>
       )}
     </>

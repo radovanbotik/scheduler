@@ -10,7 +10,7 @@ import { ReactNode, useState } from "react";
 
 type TModal = {
   title?: string;
-  description?: string;
+  description?: string | ReactNode;
   className?: string;
   children: ReactNode;
   isOpen: boolean;
@@ -40,9 +40,9 @@ export function Modal({
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           {/* The actual dialog panel  */}
-          <DialogPanel className="max-h-[600px] max-w-lg space-y-4 overflow-y-scroll bg-white p-12">
+          <DialogPanel className="shadow-vodafone-gray-400 max-h-[600px] max-w-lg space-y-4 overflow-hidden overflow-y-auto rounded-md bg-white p-12 shadow-sm">
             {title && <DialogTitle className="font-bold">{title}</DialogTitle>}
-            {description && <Description>{description}</Description>}
+            {description && <Description as="div">{description}</Description>}
             {children}
             {/* <div className="flex gap-4">
               <button onClick={() => setIsOpen(false)}>Cancel</button>

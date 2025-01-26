@@ -1,5 +1,7 @@
+import { ShiftWithDetails } from "@/app/api/getShifts/route";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { Avatar } from "../shared/Avatar";
 
 const people = [
   {
@@ -92,41 +94,49 @@ const people = [
   },
 ];
 
-export default function AssignmentList() {
+type TAssignementList = ShiftWithDetails;
+
+export default function AssignmentList({ ShiftAssignments }: ShiftWithDetails) {
+  //   console.log(ShiftAssignments);
+  //   return <></>;
   return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <li key={person.email} className="flex justify-between gap-x-6 py-5">
+    <ul role="list" className="min-h-48 divide-y divide-gray-100">
+      {ShiftAssignments.map((assignment) => (
+        <li
+          key={assignment.assignment_id}
+          className="flex justify-between gap-x-6 py-5"
+        >
           <div className="flex min-w-0 gap-x-4">
-            <img
+            {/* <img
               alt=""
-              src={person.imageUrl}
+              src={assignment.imageUrl}
               className="size-12 flex-none rounded-full bg-gray-50"
-            />
+            /> */}
+            <Avatar className="bg-vodafone-gray-50 size-12 flex-none rounded-md" />
             <div className="min-w-0 flex-auto">
               <p className="text-sm/6 font-semibold text-gray-900">
-                <a href={person.href} className="hover:underline">
-                  {person.name}
+                <a href={assignment.user.username} className="hover:underline">
+                  {assignment.user.username}
                 </a>
               </p>
               <p className="mt-1 flex text-xs/5 text-gray-500">
                 <a
-                  href={`mailto:${person.email}`}
+                  href={`mailto:${assignment.user.email}`}
                   className="truncate hover:underline"
                 >
-                  {person.email}
+                  {assignment.user.email}
                 </a>
               </p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-x-6">
             <div className="hidden sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm/6 text-gray-900">{person.role}</p>
-              {person.lastSeen ? (
+              <p className="text-sm/6 text-gray-900">{assignment.shift_role}</p>
+              {/* {assignment.lastSeen ? (
                 <p className="mt-1 text-xs/5 text-gray-500">
                   Last seen{" "}
-                  <time dateTime={person.lastSeenDateTime}>
-                    {person.lastSeen}
+                  <time dateTime={assignment.lastSeenDateTime}>
+                    {assignment.lastSeen}
                   </time>
                 </p>
               ) : (
@@ -136,7 +146,7 @@ export default function AssignmentList() {
                   </div>
                   <p className="text-xs/5 text-gray-500">Online</p>
                 </div>
-              )}
+              )} */}
             </div>
             <Menu as="div" className="relative flex-none">
               <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
@@ -152,7 +162,10 @@ export default function AssignmentList() {
                     href="#"
                     className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                   >
-                    View profile<span className="sr-only">, {person.name}</span>
+                    View profile
+                    <span className="sr-only">
+                      , {assignment.user.username}
+                    </span>
                   </a>
                 </MenuItem>
                 <MenuItem>
@@ -160,7 +173,8 @@ export default function AssignmentList() {
                     href="#"
                     className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                   >
-                    Message<span className="sr-only">, {person.name}</span>
+                    Message
+                    <span className="sr-only">, {assignment.user.email}</span>
                   </a>
                 </MenuItem>
               </MenuItems>
