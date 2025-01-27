@@ -1,69 +1,82 @@
-"use client";
+"use server";
+// app/(whatever)/CalendarPage.tsx (or page.tsx if this is your route)
+// import { getShiftPatterns, getShifts } from "@/lib/data-fetch"; // Your data fetching utils
+import { lastDayOfMonth, startOfMonth } from "date-fns";
+import { prisma } from "@/prisma/prisma";
+import { MonthView } from "../MonthView";
 
-import { useState, useEffect } from "react";
-import { addMonths, subMonths } from "date-fns";
-import { ShiftPattern } from "@prisma/client";
-import { ShiftWithDetails } from "@/app/api/getShifts/route";
-import MonthView from "../MonthView";
+async function getShifts(date: Date) {
+  if (!date) throw new Error("invalid date");
 
-export function CalendarDataLayer() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [shiftPatterns, setShiftPatterns] = useState<ShiftPattern[]>([]);
-  const [shifts, setShifts] = useState<ShiftWithDetails[]>([]);
-
-  // Whenever currentDate changes, refetch
-  useEffect(() => {
-    (async function fetchData() {
-      const [patterns, fetchedShifts] = await Promise.all([
-        getShiftPatterns(),
-        getShifts(currentDate),
-      ]);
-      if (patterns) setShiftPatterns(patterns);
-      if (fetchedShifts) setShifts(fetchedShifts);
-    })();
-  }, [currentDate]);
-
-  // Functions for changing the month
-  function prevMonth() {
-    setCurrentDate((prev) => subMonths(prev, 1));
+  const firstDayInMonth = startOfMonth(date);
+  const lastDayInMonth = lastDayOfMonth(date);
+  try {
+    const shifts = await prisma.shift.findMany({
+      where: {
+        shift_date: {
+          gte: firstDayInMonth,
+          lte: lastDayInMonth,
+        },
+      },
+      select: {
+        shift_date: true,
+        shift_id: true,
+        pattern_id: true,
+        pattern: true,
+        ShiftAssignments: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    return shifts;
+  } catch (error) {
+    console.error("Database query error:", error);
+    return { message: error };
   }
+}
 
-  function nextMonth() {
-    setCurrentDate((prev) => addMonths(prev, 1));
+async function getShiftPatterns() {
+  try {
+    const desiredOrder = [
+      "Early Morning",
+      "Morning",
+      "Standard Day",
+      "Afternoon",
+      "Night",
+    ];
+    const shiftPatterns = await prisma.shiftPattern.findMany();
+    return shiftPatterns.sort((a, b) => {
+      return (
+        desiredOrder.indexOf(a.shift_name) - desiredOrder.indexOf(b.shift_name)
+      );
+    });
+  } catch (error) {
+    console.error("Database query error:", error);
+    return { message: error };
   }
+}
 
+export async function CalendarDataLayer({
+  currentDate,
+}: {
+  currentDate: Date;
+}) {
+  // 1) Figure out which date we should use. Maybe from query string, or default to now.
+
+  // 2) Fetch data on the server side. This can be done in parallel.
+  const [shiftPatterns, shifts] = await Promise.all([
+    getShiftPatterns(),
+    getShifts(currentDate),
+  ]);
+
+  // 3) Render a client component and pass the fetched data
   return (
     <MonthView
       currentDate={currentDate}
-      shiftPatterns={shiftPatterns}
-      shifts={shifts}
-      prevMonth={prevMonth}
-      nextMonth={nextMonth}
+      shiftPatterns={shiftPatterns || []}
+      shifts={shifts || []}
     />
   );
-}
-
-// Example fetchers (same as before, but kept in the container or utilities)
-async function getShiftPatterns(): Promise<ShiftPattern[] | undefined> {
-  try {
-    const response = await fetch("/api/shiftpatterns");
-    if (!response.ok) {
-      throw new Error("Failed to fetch shift patterns");
-    }
-    return (await response.json()) as ShiftPattern[];
-  } catch (error) {
-    console.error("Error fetching shift patterns:", error);
-  }
-}
-
-async function getShifts(date: Date): Promise<ShiftWithDetails[] | undefined> {
-  try {
-    const response = await fetch(`/api/getShifts?date=${date.toISOString()}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch shifts");
-    }
-    return (await response.json()) as ShiftWithDetails[];
-  } catch (error) {
-    console.error("Error fetching shifts:", error);
-  }
 }

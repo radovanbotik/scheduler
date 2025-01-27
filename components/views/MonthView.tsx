@@ -1,41 +1,46 @@
 "use client";
 
+import { useState } from "react";
 import {
-  format,
+  isSameDay,
   isSameMonth,
   isToday,
-  isSameDay,
+  format,
   startOfMonth,
   endOfMonth,
-  addDays,
   subDays,
+  addDays,
   getDay,
   eachDayOfInterval,
+  addMonths,
+  subMonths,
 } from "date-fns";
 import { ShiftPattern } from "@prisma/client";
 import { ShiftWithDetails } from "@/app/api/getShifts/route";
 import { cn } from "@/lib/utility/cn";
-import { useState } from "react";
+import { Header } from "./Header";
+import { DayHeader } from "./DayHeader";
 import { Modal } from "@/components/shared/Modal";
 import AssignmentList from "./AssignmentList";
-import { DayHeader } from "./DayHeader";
-import { Header } from "./Header";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type MonthViewProps = {
   currentDate: Date;
   shiftPatterns: ShiftPattern[];
   shifts: ShiftWithDetails[];
-  prevMonth: () => void;
-  nextMonth: () => void;
 };
 
-export default function MonthView({
-  currentDate,
+export function MonthView({
+  currentDate: serverDate,
   shiftPatterns,
   shifts,
-  prevMonth,
-  nextMonth,
 }: MonthViewProps) {
+  const router = useRouter();
+
+  // Because this is a Client Component, `serverDate` is a prop from the server.
+  // We could store it locally if we want local state, but then we'd need a plan
+  // for re-fetching data. Let's show an example approach using URL params:
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedShift, setSelectedShift] = useState<ShiftWithDetails>();
 
@@ -44,14 +49,14 @@ export default function MonthView({
     setIsOpen(true);
   }
 
-  // Helper to generate the 42 days for the month view
+  // 1) Helper to build the array of 42 calendar days
   function getCalendarDays(date: Date) {
     const TILES = 42;
     const startOfMonthDate = startOfMonth(date);
     const endOfMonthDate = endOfMonth(date);
+
     const firstDayPosition = getDay(startOfMonthDate);
     const daysFromPreviousMonth = (firstDayPosition + 6) % 7;
-
     const daysInCurrentMonth = eachDayOfInterval({
       start: startOfMonthDate,
       end: endOfMonthDate,
@@ -65,28 +70,38 @@ export default function MonthView({
     return eachDayOfInterval({ start: startOfCalendar, end: endOfCalendar });
   }
 
-  const calendarDays = getCalendarDays(currentDate);
+  const calendarDays = getCalendarDays(serverDate);
 
-  console.log(currentDate);
+  // 2) We can't fetch directly in the server component for the new month
+  //    from here. Instead, we'd navigate so Next.js re-renders the server
+  //    component with a new 'searchParams.date'.
+  //    We'll do that by pushing a new query param:
 
-  // return <></>;
+  function handlePrevMonth() {
+    const prev = subMonths(serverDate, 1);
+    router.push(`?date=${prev.toISOString()}`);
+  }
+
+  function handleNextMonth() {
+    const next = addMonths(serverDate, 1);
+    router.push(`?date=${next.toISOString()}`);
+  }
 
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
         <Header
-          currentDate={currentDate}
-          prevMonth={prevMonth}
-          nextMonth={nextMonth}
+          currentDate={serverDate}
+          prevMonth={handlePrevMonth}
+          nextMonth={handleNextMonth}
         />
 
         <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
           <DayHeader />
           <div className="isolate flex bg-vodafone-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
-            {/* DESKTOP */}
+            {/* Desktop */}
             <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
               {calendarDays.map((day) => {
-                // find all shifts for this date
                 const dailyShifts = shifts.filter((shift) =>
                   isSameDay(shift.shift_date, day),
                 );
@@ -95,7 +110,7 @@ export default function MonthView({
                   <div
                     key={format(day, "yyyy-MM-dd")}
                     className={cn(
-                      isSameMonth(day, currentDate)
+                      isSameMonth(day, serverDate)
                         ? "bg-white"
                         : "bg-vodafone-gray-50 text-gray-500",
                       "relative space-y-1 px-3 py-2",
@@ -112,8 +127,8 @@ export default function MonthView({
                       {format(day, "d")}
                     </time>
 
+                    {/* Patterns */}
                     {shiftPatterns.map((pattern) => {
-                      // does a shift exist for this pattern on this day?
                       const matchedShift = dailyShifts.find(
                         (shift) => shift.pattern_id === pattern.pattern_id,
                       );
@@ -122,9 +137,9 @@ export default function MonthView({
                         <button
                           key={pattern.pattern_id}
                           className="//px-3 group flex w-full"
-                          onClick={() =>
-                            matchedShift && openModal(matchedShift)
-                          }
+                          onClick={() => {
+                            if (matchedShift) openModal(matchedShift);
+                          }}
                         >
                           <div
                             className={cn(
@@ -133,7 +148,7 @@ export default function MonthView({
                           >
                             {pattern.shift_name}
                           </div>
-                          <span className="//group-hover:inherit ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
+                          <span className="ml-3 hidden flex-none text-gray-500 group-hover:text-vodafone-600 xl:block">
                             {matchedShift?.ShiftAssignments.length ?? 0}
                           </span>
                         </button>
@@ -144,18 +159,18 @@ export default function MonthView({
               })}
             </div>
 
-            {/* MOBILE */}
+            {/* Mobile */}
             <div className="grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
               {calendarDays.map((day) => (
                 <button
                   key={format(day, "yyyy-MM-dd")}
                   className={cn(
-                    isSameMonth(day, currentDate) ? "bg-white" : "bg-gray-50",
+                    isSameMonth(day, serverDate) ? "bg-white" : "bg-gray-50",
                     isToday(day) && "font-semibold text-vodafone-600",
                     !isToday(day) &&
-                      isSameMonth(day, currentDate) &&
+                      isSameMonth(day, serverDate) &&
                       "text-gray-900",
-                    !isSameMonth(day, currentDate) && "text-gray-500",
+                    !isSameMonth(day, serverDate) && "text-gray-500",
                     "flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10",
                   )}
                 >
@@ -184,7 +199,7 @@ export default function MonthView({
           title={format(selectedShift.shift_date, "iiii do LLLL yyyy")}
           description={
             <>
-              <p className="">{selectedShift.pattern.shift_name} Shift</p>
+              <p>{selectedShift.pattern.shift_name} Shift</p>
               <p className="text-sm">
                 {selectedShift.pattern.start_time} -{" "}
                 {selectedShift.pattern.end_time}
