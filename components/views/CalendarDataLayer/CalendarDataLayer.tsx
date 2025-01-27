@@ -33,7 +33,7 @@ async function getShifts(date: Date) {
     return shifts;
   } catch (error) {
     console.error("Database query error:", error);
-    return { message: error };
+    return [];
   }
 }
 
@@ -54,7 +54,7 @@ async function getShiftPatterns() {
     });
   } catch (error) {
     console.error("Database query error:", error);
-    return { message: error };
+    return [];
   }
 }
 
