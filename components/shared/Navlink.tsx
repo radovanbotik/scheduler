@@ -6,14 +6,15 @@ import { usePathname } from "next/navigation";
 import { forwardRef, ReactNode, useState } from "react";
 
 export type TNavlink = {
+  activeStyles: string;
+  inactiveStyles: string;
   className?: string;
   children?: ReactNode;
-  icon?: React.ElementType;
   name?: string;
 } & LinkProps;
 
 export const Navlink = forwardRef<HTMLAnchorElement, TNavlink>(function Navlink(
-  { href, className, icon: Icon, name }: TNavlink,
+  { activeStyles, inactiveStyles, children, href, className, name }: TNavlink,
   ref,
 ) {
   const pathname = usePathname();
@@ -24,14 +25,13 @@ export const Navlink = forwardRef<HTMLAnchorElement, TNavlink>(function Navlink(
       ref={ref}
       href={href}
       className={cn(
-        isCurrent
-          ? "bg-vodafone-gray-800 text-white"
-          : "text-vodafone-gray-400 hover:bg-vodafone-gray-800 hover:text-white",
+        isCurrent ? activeStyles : inactiveStyles,
         "group relative flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
         className,
       )}
     >
-      {Icon && <Icon aria-hidden="true" className="size-6 shrink-0" />}
+      {/* {Icon && <Icon aria-hidden="true" className="size-6 shrink-0" />} */}
+      {children}
       {name}
     </Link>
   );

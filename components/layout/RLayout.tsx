@@ -42,22 +42,20 @@ const pages = [
 ];
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Schedule", href: "/schedule", icon: ClockIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+  { name: "Schedule", href: "/schedule", icon: ClockIcon },
   {
     name: "Holiday Planner",
     href: "/holiday-planner",
     icon: CalendarIcon,
-    current: false,
   },
   {
     name: "Office Days",
     href: "/office-days",
     icon: BuildingOffice2Icon,
-    current: false,
   },
-  { name: "Team", href: "/team", icon: UsersIcon, current: false },
-  { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon, current: false },
+  { name: "Team", href: "/team", icon: UsersIcon },
+  { name: "FAQ", href: "/faq", icon: QuestionMarkCircleIcon },
 ];
 const userNavigation = [
   { name: "Your profile", href: "/users/random-id/profile/" },
@@ -114,8 +112,12 @@ export default function RLayout({ children }: { children: ReactNode }) {
                       <Navlink
                         href={item.href}
                         name={item.name}
-                        icon={item.icon}
-                      />
+                        activeStyles="bg-vodafone-gray-800 text-white"
+                        inactiveStyles="text-vodafone-gray-400 hover:bg-vodafone-gray-800 hover:text-white"
+                      >
+                        {/* {item.name} */}
+                        <item.icon className="size-6 shrink-0" />
+                      </Navlink>
                     </li>
                   ))}
                 </ul>
@@ -140,11 +142,15 @@ export default function RLayout({ children }: { children: ReactNode }) {
             {navigation.map((item) => (
               <li key={item.name}>
                 <Navlink
+                  activeStyles="bg-vodafone-gray-800 text-white"
+                  inactiveStyles="text-vodafone-gray-400 hover:bg-vodafone-gray-800 hover:text-white"
                   href={item.href}
                   className="group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold"
-                  icon={item.icon}
-                  // tooltip={item.name}
-                />
+                  // icon={item.icon}
+                  // // tooltip={item.name}
+                >
+                  <item.icon className="size-6 shrink-0" />
+                </Navlink>
               </li>
             ))}
           </ul>
@@ -249,6 +255,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
                         {item.name}
+                        {/* <item.icon className="size-6 shrink-0" /> */}
                       </Link>
                     </MenuItem>
                   ))}
