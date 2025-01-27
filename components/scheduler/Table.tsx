@@ -52,7 +52,7 @@ export async function Table() {
         {/* LEGEND */}
         <div
           className={cn(
-            "gapx-0.5 inline-grid [&>*]:border [&>*]:border-gray-300",
+            "gapx-0.5 inline-grid [&>*]:border [&>*]:border-vodafone-gray-300",
           )}
           style={{
             gridTemplateColumns: `100px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
@@ -76,7 +76,9 @@ export async function Table() {
         {shiftPatterns.map((pattern) => (
           <div
             key={pattern.pattern_id}
-            className={cn("inline-grid [&>*]:border [&>*]:border-gray-300")}
+            className={cn(
+              "inline-grid [&>*]:border [&>*]:border-vodafone-gray-300",
+            )}
             style={{
               gridTemplateColumns: `100px repeat(${getDaysInMonth(2025, 0).length}, 120px)`,
             }}

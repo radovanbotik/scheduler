@@ -2,67 +2,35 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "../shared/Avatar";
 
-export default function Heading() {
+type THeading = { role: string; username: string };
+
+export default function Heading({ role, username }: THeading) {
   return (
-    <div className="flex w-full space-x-6 border-b border-gray-200 pb-5">
-      <Avatar className="size-24 lg:size-12" />
-      <div className="w-full sm:flex sm:items-baseline sm:justify-between">
-        <div className="sm:w-0 sm:flex-1">
-          <h1
-            id="message-heading"
-            className="text-base font-semibold text-gray-900"
-          >
-            Full-Stack Developer
-          </h1>
-          <p className="mt-1 truncate text-sm text-gray-500">
-            Checkout and Payments Team
-          </p>
+    <div className="w-full border-b border-vodafone-gray-200 pb-5 md:flex md:items-center md:justify-between md:space-x-5">
+      <div className="flex items-center space-x-5">
+        <div className="shrink-0">
+          <div className="relative">
+            <img
+              alt=""
+              src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+              className="size-16 rounded-full"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full shadow-inner"
+            />
+          </div>
         </div>
-
-        <div className="mt-4 flex items-center justify-between sm:ml-6 sm:mt-0 sm:shrink-0 sm:justify-start">
-          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-            Open
-          </span>
-          <Menu as="div" className="relative ml-3 inline-block text-left">
-            <div>
-              <MenuButton className="-my-2 flex items-center rounded-full bg-white p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <span className="sr-only">Open options</span>
-                <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
-              </MenuButton>
-            </div>
-
-            <MenuItems
-              transition
-              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-            >
-              <div className="py-1">
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="flex justify-between px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                  >
-                    <span>Edit</span>
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="flex justify-between px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                  >
-                    <span>Duplicate</span>
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <button
-                    type="button"
-                    className="flex w-full justify-between px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                  >
-                    <span>Archive</span>
-                  </button>
-                </MenuItem>
-              </div>
-            </MenuItems>
-          </Menu>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{username}</h1>
+          <p className="text-sm font-medium text-gray-500">
+            {role}
+            {/* Applied for{" "}
+            <a href="#" className="text-gray-900">
+              Front End Developer
+            </a>{" "}
+            on <time dateTime="2020-08-25">August 25, 2020</time> */}
+          </p>
         </div>
       </div>
     </div>

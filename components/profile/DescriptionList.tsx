@@ -3,7 +3,7 @@ import { PaperClipIcon } from "@heroicons/react/20/solid";
 export default function DescriptionList() {
   return (
     <div>
-      <dl className="divide-y divide-gray-100">
+      <dl className="divide-y divide-vodafone-gray-100">
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">Full name</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -47,7 +47,7 @@ export default function DescriptionList() {
           <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
             <ul
               role="list"
-              className="divide-y divide-gray-100 rounded-md border border-gray-200"
+              className="divide-y divide-vodafone-gray-100 rounded-md border border-vodafone-gray-200"
             >
               <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm/6">
                 <div className="flex w-0 flex-1 items-center">

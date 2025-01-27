@@ -101,7 +101,7 @@ export default function AssignmentList({ ShiftAssignments }: ShiftWithDetails) {
   //   console.log(ShiftAssignments);
   //   return <></>;
   return (
-    <ul role="list" className="min-h-48 divide-y divide-gray-100">
+    <ul role="list" className="min-h-48 divide-y divide-vodafone-gray-100">
       {ShiftAssignments.map((assignment) => (
         <li
           key={assignment.assignment_id}
@@ -113,7 +113,7 @@ export default function AssignmentList({ ShiftAssignments }: ShiftWithDetails) {
               src={assignment.imageUrl}
               className="size-12 flex-none rounded-full bg-gray-50"
             /> */}
-            <Avatar className="bg-vodafone-gray-50 size-12 flex-none rounded-md" />
+            <Avatar className="size-12 flex-none rounded-md bg-vodafone-gray-50" />
             <div className="min-w-0 flex-auto">
               <p className="text-sm/6 font-semibold text-gray-900">
                 <a href={assignment.user.username} className="hover:underline">
@@ -156,11 +156,11 @@ export default function AssignmentList({ ShiftAssignments }: ShiftWithDetails) {
               </MenuButton>
               <MenuItems
                 transition
-                className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-vodafone-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 <MenuItem>
                   <Link
-                    href={"/users/random-id/profile"}
+                    href={`/users/${assignment.user.user_id}/profile`}
                     className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                   >
                     View profile

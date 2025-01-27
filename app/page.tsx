@@ -75,7 +75,7 @@ export default function Example() {
                             id="remember-me"
                             name="remember-me"
                             type="checkbox"
-                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-vodafone-600 checked:bg-vodafone-600 indeterminate:border-vodafone-600 indeterminate:bg-vodafone-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vodafone-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                            className="col-start-1 row-start-1 appearance-none rounded border border-vodafone-gray-300 bg-white checked:border-vodafone-gray-600 checked:bg-vodafone-600 indeterminate:border-vodafone-gray-600 indeterminate:bg-vodafone-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vodafone-600 disabled:border-vodafone-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
                           />
                           <svg
                             fill="none"
@@ -137,7 +137,7 @@ export default function Example() {
                     aria-hidden="true"
                     className="absolute inset-0 flex items-center"
                   >
-                    <div className="w-full border-t border-gray-200" />
+                    <div className="w-full border-t border-vodafone-gray-200" />
                   </div>
                   <div className="relative flex justify-center text-sm/6 font-medium">
                     <span className="bg-white px-6 text-gray-900">
@@ -149,7 +149,7 @@ export default function Example() {
                 <div className="mt-6 grid grid-cols-1 gap-4">
                   <a
                     href="#"
-                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-vodafone-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
                   >
                     <svg
                       viewBox="0 0 24 24"

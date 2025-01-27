@@ -98,7 +98,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
               </div>
             </TransitionChild>
 
-            <div className="bg-vodafone-gray-900 flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 ring-1 ring-white/10">
+            <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-vodafone-gray-900 px-6 pb-2 ring-1 ring-white/10">
               <div className="relative flex h-16 shrink-0 items-center">
                 <img
                   alt="Your Company"
@@ -126,7 +126,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
       </Dialog>
 
       {/* Static sidebar for desktop */}
-      <div className="//lg:overflow-y-auto lg:bg-vodafone-gray-900 hidden h-full overflow-hidden overflow-x-hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:pb-4">
+      <div className="//lg:overflow-y-auto hidden h-full overflow-hidden overflow-x-hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:bg-vodafone-gray-900 lg:pb-4">
         <div className="relative flex h-16 shrink-0 items-center justify-center">
           <img
             alt="Your Company"
@@ -152,7 +152,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
       </div>
 
       <div className="lg:pl-20">
-        <div className="bg-vodafone-gray-800 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
+        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-vodafone-gray-200 bg-vodafone-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:bg-white lg:px-8">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
@@ -175,7 +175,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                className="bg-vodafone-gray-800 col-start-1 row-start-1 block size-full pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
+                className="col-start-1 row-start-1 block size-full bg-vodafone-gray-800 pl-8 text-base text-white outline-none placeholder:text-white sm:text-sm/6 lg:bg-white lg:text-gray-900 lg:placeholder:text-gray-400"
               />
               <MagnifyingGlassIcon
                 aria-hidden="true"
@@ -240,7 +240,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
                 </MenuButton>
                 <MenuItems
                   transition
-                  className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-vodafone-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                 >
                   {userNavigation.map((item) => (
                     <MenuItem key={item.name}>
@@ -266,7 +266,7 @@ export default function RLayout({ children }: { children: ReactNode }) {
         </main>
       </div>
 
-      {/* <aside className="fixed bottom-0 left-20 top-16 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+      {/* <aside className="fixed bottom-0 left-20 top-16 hidden w-96 overflow-y-auto border-r border-vodafone-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
        
         </aside> */}
     </>

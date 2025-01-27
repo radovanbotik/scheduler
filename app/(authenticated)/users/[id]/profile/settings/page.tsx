@@ -41,7 +41,7 @@ export default function page() {
         <div className="//lg:px-8 mx-auto mt-10 lg:flex lg:gap-x-16">
           {/* <h1 className="sr-only">General Settings</h1> */}
 
-          <aside className="//lg:py-20 flex overflow-x-auto border-b border-gray-900/5 py-6 lg:block lg:w-64 lg:flex-none lg:border-0">
+          <aside className="//lg:py-20 flex overflow-x-auto border-b border-vodafone-gray-900/5 py-6 lg:block lg:w-64 lg:flex-none lg:border-0">
             <nav className="flex-none px-4 sm:px-6 lg:px-0">
               <ul
                 role="list"
@@ -85,7 +85,7 @@ export default function page() {
                   Your teammates can see this information
                 </p>
 
-                <dl className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
+                <dl className="mt-6 divide-y divide-vodafone-gray-100 border-t border-vodafone-gray-200 text-sm/6">
                   <div className="py-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
                       Full name
@@ -143,7 +143,7 @@ export default function page() {
 
                 <ul
                   role="list"
-                  className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6"
+                  className="mt-6 divide-y divide-vodafone-gray-100 border-t border-vodafone-gray-200 text-sm/6"
                 >
                   <li className="flex justify-between gap-x-6 py-6">
                     <div className="font-medium text-gray-900">
@@ -158,7 +158,7 @@ export default function page() {
                   </li>
                 </ul>
 
-                <div className="flex border-t border-gray-100 pt-6">
+                <div className="flex border-t border-vodafone-gray-100 pt-6">
                   <button
                     type="button"
                     className="text-sm/6 font-semibold text-vodafone-600 hover:text-vodafone-500"
@@ -177,7 +177,7 @@ export default function page() {
                 account.
               </p>
 
-              <dl className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm/6">
+              <dl className="mt-6 divide-y divide-vodafone-gray-100 border-t border-vodafone-gray-200 text-sm/6">
                 <div className="py-6 sm:flex">
                   <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
                     Language
@@ -218,11 +218,11 @@ export default function page() {
                     <Switch
                       checked={automaticTimezoneEnabled}
                       onChange={setAutomaticTimezoneEnabled}
-                      className="focus-visible:outline-vodafone-600 data-[checked]:bg-vodafone-600 group flex w-8 cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                      className="focus-visible:outline-vodafone-600 data-[checked]:bg-vodafone-600 group flex w-8 cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-inset ring-vodafone-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                     >
                       <span
                         aria-hidden="true"
-                        className="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
+                        className="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-vodafone-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
                       />
                     </Switch>
                   </dd>

@@ -35,7 +35,7 @@ export default function page() {
         <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-2xl">
           Frequently asked questions
         </h2>
-        <dl className="mt-10 space-y-8 divide-y divide-gray-900/10">
+        <dl className="mt-10 space-y-8 divide-y divide-vodafone-gray-900/10">
           {faqs.map((faq) => (
             <div key={faq.id} className="pt-8 lg:grid lg:grid-cols-12 lg:gap-8">
               <dt className="text-base/7 font-semibold text-gray-900 lg:col-span-5">
