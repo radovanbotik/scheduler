@@ -16,7 +16,7 @@ type THeader = {
   nextMonth: (date: Date) => void;
 };
 
-export function Header({ currentDate, prevMonth, nextMonth }: THeader) {
+export function Controls({ currentDate, prevMonth, nextMonth }: THeader) {
   return (
     <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">
       <h1 className="text-base font-semibold text-gray-900">
@@ -88,7 +88,7 @@ export function Header({ currentDate, prevMonth, nextMonth }: THeader) {
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                   >
-                    Year view
+                    My View
                   </a>
                 </MenuItem>
               </div>

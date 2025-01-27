@@ -3,7 +3,7 @@
 // import { getShiftPatterns, getShifts } from "@/lib/data-fetch"; // Your data fetching utils
 import { lastDayOfMonth, startOfMonth } from "date-fns";
 import { prisma } from "@/prisma/prisma";
-import { MonthView } from "../MonthView";
+import { MonthView } from "./month-view/MonthView";
 
 async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");

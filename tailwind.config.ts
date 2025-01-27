@@ -41,6 +41,16 @@ export default {
       fontFamily: {
         vodafone: ["var(--font-vodafone)"],
       },
+      keyframes: {
+        pulseFast: {
+          "0%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        "pulse-fast": "pulseFast 0.5s infinite", // Use the new keyframe and duration
+      },
     },
   },
   plugins: [],

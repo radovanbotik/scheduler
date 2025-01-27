@@ -1,4 +1,4 @@
-export function DayHeader() {
+export function DaysOfWeek() {
   return (
     <div className="z-10 grid grid-cols-7 gap-px border-b border-vodafone-gray-300 bg-vodafone-gray-200 text-center text-xs/6 font-semibold text-gray-700 lg:sticky lg:left-0 lg:top-0 lg:flex-none lg:justify-self-start">
       <div className="bg-white py-2">

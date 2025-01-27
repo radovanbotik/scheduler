@@ -18,11 +18,12 @@ import {
 import { ShiftPattern } from "@prisma/client";
 import { ShiftWithDetails } from "@/app/api/getShifts/route";
 import { cn } from "@/lib/utility/cn";
-import { Header } from "./Header";
-import { DayHeader } from "./DayHeader";
 import { Modal } from "@/components/shared/Modal";
-import AssignmentList from "./AssignmentList";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getCalendarDays } from "@/lib/utility/calendar";
+import { DescriptionList } from "./DescriptionList";
+import { DaysOfWeek } from "./DaysOfWeek";
+import { Controls } from "../Controls";
 
 type MonthViewProps = {
   currentDate: Date;
@@ -50,25 +51,6 @@ export function MonthView({
   }
 
   // 1) Helper to build the array of 42 calendar days
-  function getCalendarDays(date: Date) {
-    const TILES = 42;
-    const startOfMonthDate = startOfMonth(date);
-    const endOfMonthDate = endOfMonth(date);
-
-    const firstDayPosition = getDay(startOfMonthDate);
-    const daysFromPreviousMonth = (firstDayPosition + 6) % 7;
-    const daysInCurrentMonth = eachDayOfInterval({
-      start: startOfMonthDate,
-      end: endOfMonthDate,
-    });
-    const daysFromNextMonth =
-      TILES - daysInCurrentMonth.length - daysFromPreviousMonth;
-
-    const startOfCalendar = subDays(startOfMonthDate, daysFromPreviousMonth);
-    const endOfCalendar = addDays(endOfMonthDate, daysFromNextMonth);
-
-    return eachDayOfInterval({ start: startOfCalendar, end: endOfCalendar });
-  }
 
   const calendarDays = getCalendarDays(serverDate);
 
@@ -90,14 +72,14 @@ export function MonthView({
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
-        <Header
+        <Controls
           currentDate={serverDate}
           prevMonth={handlePrevMonth}
           nextMonth={handleNextMonth}
         />
 
         <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
-          <DayHeader />
+          <DaysOfWeek />
           <div className="isolate flex bg-vodafone-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
             {/* Desktop */}
             <div className="isolate hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
@@ -207,7 +189,7 @@ export function MonthView({
             </>
           }
         >
-          <AssignmentList {...selectedShift} />
+          <DescriptionList {...selectedShift} />
         </Modal>
       )}
     </>
