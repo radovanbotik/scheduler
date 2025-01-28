@@ -1,27 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import {
-  isSameDay,
-  isSameMonth,
-  isToday,
-  format,
-  startOfMonth,
-  endOfMonth,
-  subDays,
-  addDays,
-  getDay,
-  eachDayOfInterval,
-  addMonths,
-  subMonths,
-} from "date-fns";
-import { ShiftPattern } from "@prisma/client";
-import { ShiftWithDetails } from "@/app/api/getShifts/route";
+import { isSameMonth, isToday, format } from "date-fns";
 import { cn } from "@/lib/utility/cn";
-import { Modal } from "@/components/shared/Modal";
-import { useRouter, useSearchParams } from "next/navigation";
 import { getCalendarDays } from "@/lib/utility/calendar";
-import { DescriptionList } from "./DescriptionList";
 import { DaysOfWeek } from "./DaysOfWeek";
 import { Controls } from "../controls/Controls";
 
@@ -30,35 +11,12 @@ type MonthViewProps = {
 };
 
 export function MonthViewSkeleton({ currentDate: serverDate }: MonthViewProps) {
-  const router = useRouter();
-
-  // 1) Helper to build the array of 42 calendar days
-
   const calendarDays = getCalendarDays(serverDate);
-
-  // 2) We can't fetch directly in the server component for the new month
-  //    from here. Instead, we'd navigate so Next.js re-renders the server
-  //    component with a new 'searchParams.date'.
-  //    We'll do that by pushing a new query param:
-
-  function handlePrevMonth() {
-    const prev = subMonths(serverDate, 1);
-    router.push(`?date=${prev.toISOString()}`);
-  }
-
-  function handleNextMonth() {
-    const next = addMonths(serverDate, 1);
-    router.push(`?date=${next.toISOString()}`);
-  }
 
   return (
     <>
       <div className="lg:flex lg:h-full lg:flex-col">
-        <Controls
-          currentDate={serverDate}
-          prevMonth={handlePrevMonth}
-          nextMonth={handleNextMonth}
-        />
+        <Controls currentDate={serverDate} />
 
         <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
           <DaysOfWeek />

@@ -5,12 +5,13 @@ import { lastDayOfMonth, startOfMonth } from "date-fns";
 import { prisma } from "@/prisma/prisma";
 import { MonthView } from "./month-view/MonthView";
 import { Controls } from "./controls/Controls";
+import { getCalendarDays } from "@/lib/utility/calendar";
 
 async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");
 
-  const firstDayInMonth = startOfMonth(date);
-  const lastDayInMonth = lastDayOfMonth(date);
+  const firstDayInMonth = getCalendarDays(date)[0];
+  const lastDayInMonth = getCalendarDays(date)[getCalendarDays(date).length];
   try {
     const shifts = await prisma.shift.findMany({
       where: {

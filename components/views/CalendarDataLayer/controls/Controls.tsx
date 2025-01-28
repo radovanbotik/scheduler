@@ -6,6 +6,7 @@ import { DesktopViewControl } from "./DesktopViewControl";
 import { Admin } from "./Admin";
 import { SharedDateControls } from "./SharedDateControls";
 import { MobileViewControls } from "./MobileViewControls";
+import { getCalendarDays } from "@/lib/utility/calendar";
 
 type THeader = {
   currentDate: Date;
@@ -13,6 +14,12 @@ type THeader = {
 
 export function Controls({ currentDate }: THeader) {
   const router = useRouter();
+
+  const rangeOfDays = getCalendarDays(currentDate);
+  console.log(rangeOfDays);
+
+  const firstDate = rangeOfDays[0];
+  const lastDate = rangeOfDays[rangeOfDays.length];
 
   function prevMonth(currentDate: Date) {
     const prev = subMonths(currentDate, 1);
