@@ -39,7 +39,7 @@ function Button({
   );
 }
 
-export function DateControls({
+export function SharedDateControls({
   currentDate,
   nextMonth,
   prevMonth,
