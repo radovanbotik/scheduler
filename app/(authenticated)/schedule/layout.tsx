@@ -1,5 +1,6 @@
 "use server";
 import { Controls } from "@/components/views/CalendarDataLayer/controls/Controls";
+import { Suspense } from "react";
 
 export default async function Layout({
   children,
@@ -13,7 +14,9 @@ export default async function Layout({
 
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-0">
-      <Controls serverDate={currentDate} />
+      <Suspense>
+        <Controls serverDate={currentDate} />
+      </Suspense>
       {children}
     </div>
   );
