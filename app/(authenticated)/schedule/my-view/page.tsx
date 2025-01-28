@@ -1,7 +1,7 @@
 "use server";
 
-import { MonthView } from "@/components/views/CalendarDataLayer/month-view/MonthView";
 import { MonthViewSkeleton } from "@/components/views/CalendarDataLayer/month-view/MonthViewSketeleton";
+import { MyView } from "@/components/views/CalendarDataLayer/my-view/MyView";
 import { getCalendarDays } from "@/lib/utility/calendar";
 import { prisma } from "@/prisma/prisma";
 import { Suspense } from "react";
@@ -60,6 +60,77 @@ async function getShiftPatterns() {
   }
 }
 
+export type AgentShift = {
+  shift_id: string;
+  shift_date: Date;
+  pattern: {
+    pattern_id: string;
+    shift_name: string;
+    start_time: string;
+    end_time: string;
+  };
+  ShiftAssignments: {
+    assignment_id: string;
+    user_id: string;
+    shift_role: string;
+    user: {
+      firstName: string | null;
+      lastName: string | null;
+      username: string;
+      profilePicture: string | null;
+    };
+  }[];
+};
+
+async function getAgentShifts(date: Date, agentId: string) {
+  if (!date) throw new Error("Invalid date");
+
+  const firstDayInMonth = getCalendarDays(date)[0];
+  const lastDayInMonth =
+    getCalendarDays(date)[getCalendarDays(date).length - 1];
+
+  try {
+    const shifts = await prisma.shift.findMany({
+      where: {
+        shift_date: {
+          gte: firstDayInMonth,
+          lte: lastDayInMonth,
+        },
+        ShiftAssignments: {
+          some: {
+            user_id: agentId, // Filter assignments for the given user
+          },
+        },
+      },
+      include: {
+        ShiftAssignments: {
+          where: {
+            user_id: agentId,
+          },
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                username: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
+        pattern: true, // Include shift pattern details if needed
+      },
+    });
+
+    return shifts;
+  } catch (error) {
+    console.error("Error fetching agent shifts:", error);
+    return [];
+  }
+}
+
+const AUTH_ID = "cm6gavqul0000vz2kcmv9q3la";
+
 export default async function page({
   searchParams,
 }: {
@@ -68,17 +139,21 @@ export default async function page({
   const dateParam = (await searchParams)?.date;
   const currentDate = dateParam ? new Date(dateParam) : new Date();
 
-  const [shiftPatterns, shifts] = await Promise.all([
+  const [shiftPatterns, shifts, agentShifts] = await Promise.all([
     getShiftPatterns(),
     getShifts(currentDate),
+    getAgentShifts(currentDate, AUTH_ID),
   ]);
+
+  console.log(agentShifts);
 
   return (
     <>
       <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
-        <MonthView
+        <MyView
           currentDate={currentDate}
           shiftPatterns={shiftPatterns || []}
+          agentShifts={agentShifts || []}
           shifts={shifts || []}
         />
       </Suspense>

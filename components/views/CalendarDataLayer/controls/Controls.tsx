@@ -39,7 +39,7 @@ export function Controls({ serverDate }: THeader) {
 
   const isAdmin = false;
 
-  console.log(currentDate);
+  // console.log(currentDate);
 
   return (
     <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">
