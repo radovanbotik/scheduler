@@ -14,17 +14,52 @@ datasource db {
 }
 
 model User {
-  user_id         String           @id @default(cuid())
-  username        String
-  email           String
-  password_hash   String
-  user_role       UserRole
-  created_at      DateTime         @default(now())
-  updated_at      DateTime         @updatedAt
-  ShiftRequests   ShiftRequest[]
-  UserPreferences UserPreference[]
-  ShiftAssignments ShiftAssignment[]
-  ShiftLimit      ShiftLimit?
+  user_id                String             @id @default(cuid())
+  username               String
+  // Use a mandatory workEmail
+  workEmail              String
+  personalEmail          String?
+  password_hash          String
+  user_role              UserRole
+  created_at             DateTime           @default(now())
+  updated_at             DateTime           @updatedAt
+
+  // Name and role details
+  firstName              String?
+  lastName               String?
+  jobRole                JobRole?           // Enum field for the user's job role
+  certifications         String?            // Could be array or Json if storing multiple certs
+  about                  String?
+  profilePicture         String?            // URL/path to profile image
+
+  // Phone numbers
+  workPhone              String
+  personalPhone          String?
+
+  // Expanded address fields
+  addressLine1           String?
+  addressLine2           String?
+  city                   String?
+  state                  String?
+  postalCode             String?
+  country                String?
+
+  // Preference for receiving schedule notifications via email
+  receiveScheduleByEmail Boolean            @default(false)
+
+  // Relationships
+  ShiftRequests          ShiftRequest[]
+  UserPreferences        UserPreference[]
+  ShiftAssignments       ShiftAssignment[]
+  ShiftLimit             ShiftLimit?
+}
+
+// New enum for user-specific job roles
+enum JobRole {
+  TEAM_LEADER
+  TECHNICAL_SUPPORT
+  SERVICE_DESK_ASSOCIATE
+  IITC
 }
 
 model ShiftPattern {

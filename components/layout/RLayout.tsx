@@ -34,7 +34,6 @@ import { cn } from "@/lib/utility/cn";
 import { Avatar } from "../shared/Avatar";
 import { Navlink } from "../shared/Navlink";
 import Link from "next/link";
-import { NavlinkWithTooltip } from "../shared/NavlinkWithTooltip";
 
 const pages = [
   { name: "Projects", href: "#", current: false },

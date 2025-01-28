@@ -1,190 +1,71 @@
-const { PrismaClient } = require("@prisma/client");
+// @ts-nocheck
+
+import { ShiftRole, JobRole, UserRole, PrismaClient } from "@prisma/client";
+
+// const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create Users
-  const user1 = await prisma.user.create({
-    data: {
-      username: "randy_marsh",
-      email: "randy.marsh@example.com",
-      password_hash: "hashed_password_123",
-      user_role: "user",
-    },
+  // 1. Seed Users
+  const userData = generateUserData(15); // creates array of 15 user objects
+  // Use createMany so we don't get unique constraint errors on repeated seeds
+  await prisma.user.createMany({
+    data: userData,
+    skipDuplicates: true,
   });
 
-  const user2 = await prisma.user.create({
-    data: {
-      username: "jaden_smith",
-      email: "jaden.smith@example.com",
-      password_hash: "hashed_password_456",
-      user_role: "admin",
-    },
-  });
-  const user3 = await prisma.user.create({
-    data: {
-      username: "eric_cartman",
-      email: "eric.cartman@example.com",
-      password_hash: "hashed_password_456",
-      user_role: "developer",
-    },
-  });
-  const user4 = await prisma.user.create({
-    data: {
-      username: "hansel",
-      email: "hansel@example.com",
-      password_hash: "hashed_password_456",
-      user_role: "admin",
-    },
-  });
-  const user5 = await prisma.user.create({
-    data: {
-      username: "derek_zoolander",
-      email: "derek.zoolander@example.com",
-      password_hash: "hashed_password_456",
-      user_role: "admin",
-    },
+  // Grab the users from the DB (they may already have existed)
+  const allUsers = await prisma.user.findMany();
+
+  // 2. Seed Shift Patterns (5 fixed patterns)
+  const shiftPatternData = [
+    { shift_name: "Early Morning", start_time: "06:00", end_time: "15:00" },
+    { shift_name: "Morning", start_time: "07:00", end_time: "16:00" },
+    { shift_name: "Standard Day", start_time: "09:00", end_time: "18:00" },
+    { shift_name: "Afternoon", start_time: "13:00", end_time: "22:00" },
+    { shift_name: "Night", start_time: "21:30", end_time: "06:30" },
+  ];
+
+  await prisma.shiftPattern.createMany({
+    data: shiftPatternData,
+    skipDuplicates: true,
   });
 
-  // Create Shift Patterns
-  //   const pattern1 = await prisma.shiftPattern.create({
-  //     data: {
-  //       shift_name: 'Morning Shift',
-  //       start_time: '06:00',
-  //       end_time: '14:00',
-  //     },
-  //   });
+  // Fetch the patterns from DB
+  const shiftPatterns = await prisma.shiftPattern.findMany();
 
-  //   const pattern2 = await prisma.shiftPattern.create({
-  //     data: {
-  //       shift_name: 'Night Shift',
-  //       start_time: '22:00',
-  //       end_time: '06:00',
-  //     },
-  //   });
+  // 3. For each day in January, create a Shift for each pattern
+  const januaryDays = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  //EM:cm6cbzrb40000vz44f08v5gbv
-  //MO:cm6cc032f0001vz4465trmkth
-  //SD:cm6cc12740002vz447v87zy1v
-  //AF:cm6cc12740003vz44f4qywm5m
-  //NI:cm6cc12740004vz44j5e12zdh
+  for (const day of januaryDays) {
+    const shiftDate = new Date(2025, 0, day);
+    for (const pattern of shiftPatterns) {
+      // Create a shift
+      const shift = await prisma.shift.create({
+        data: {
+          shift_date: shiftDate,
+          pattern_id: pattern.pattern_id,
+        },
+      });
 
-  // Create Shifts
-  const shift1 = await prisma.shift.create({
-    data: {
-      shift_date: new Date("2025-01-25T06:00:00Z"),
-      pattern_id: "cm6cbzrb40000vz44f08v5gbv",
-    },
-  });
+      // 4. Assign 2 random users to each Shift with random shift roles
+      const assignedUsers = pickRandomItems(allUsers, 2);
+      for (const user of assignedUsers) {
+        // pick a random ShiftRole
+        const randomShiftRole = randomShiftRoleEnumValue();
+        await prisma.shiftAssignment.create({
+          data: {
+            user_id: user.user_id,
+            shift_id: shift.shift_id,
+            shift_role: randomShiftRole,
+          },
+        });
+      }
+    }
+  }
 
-  const shift2 = await prisma.shift.create({
-    data: {
-      shift_date: new Date("2025-01-25T22:00:00Z"),
-      pattern_id: "cm6cc12740002vz447v87zy1v",
-    },
-  });
-  const shift3 = await prisma.shift.create({
-    data: {
-      shift_date: new Date("2025-01-25T22:00:00Z"),
-      pattern_id: "cm6cc12740002vz447v87zy1v",
-    },
-  });
-  const shift4 = await prisma.shift.create({
-    data: {
-      shift_date: new Date("2025-01-25T22:00:00Z"),
-      pattern_id: "cm6cc12740003vz44f4qywm5m",
-    },
-  });
-  const shift5 = await prisma.shift.create({
-    data: {
-      shift_date: new Date("2025-01-25T22:00:00Z"),
-      pattern_id: "cm6cc12740004vz44j5e12zdh",
-    },
-  });
-
-  // Create Shift Requests
-  await prisma.shiftRequest.create({
-    data: {
-      user_id: user1.user_id,
-      shift_id: shift1.shift_id,
-      pattern_id: "cm6cbzrb40000vz44f08v5gbv",
-      status: "pending",
-    },
-  });
-
-  await prisma.shiftRequest.create({
-    data: {
-      user_id: user2.user_id,
-      shift_id: shift2.shift_id,
-      pattern_id: "cm6cc12740002vz447v87zy1v",
-      status: "approved",
-    },
-  });
-
-  // Create User Preferences
-  await prisma.userPreference.create({
-    data: {
-      user_id: user1.user_id,
-      pattern_id: "cm6cbzrb40000vz44f08v5gbv",
-    },
-  });
-
-  await prisma.userPreference.create({
-    data: {
-      user_id: user2.user_id,
-      pattern_id: "cm6cc12740002vz447v87zy1v",
-    },
-  });
-
-  // Create Shift Assignments
-  await prisma.shiftAssignment.create({
-    data: {
-      user_id: user1.user_id,
-      shift_id: shift1.shift_id,
-      shift_role: "SL",
-    },
-  });
-
-  await prisma.shiftAssignment.create({
-    data: {
-      user_id: user2.user_id,
-      shift_id: shift2.shift_id,
-      shift_role: "NR",
-    },
-  });
-  await prisma.shiftAssignment.create({
-    data: {
-      user_id: user3.user_id,
-      shift_id: shift3.shift_id,
-      shift_role: "NR",
-    },
-  });
-  await prisma.shiftAssignment.create({
-    data: {
-      user_id: user4.user_id,
-      shift_id: shift4.shift_id,
-      shift_role: "NR",
-    },
-  });
-  await prisma.shiftAssignment.create({
-    data: {
-      user_id: user5.user_id,
-      shift_id: shift5.shift_id,
-      shift_role: "ASL",
-    },
-  });
-
-  // Create Shift Limits
-  await prisma.shiftLimit.create({
-    data: {
-      user_id: user1.user_id,
-      month_year: new Date("2025-01-01T00:00:00Z"),
-      request_count: 3,
-      request_limit: 5,
-    },
-  });
-
-  console.log("Seeding completed.");
+  console.log("Seed complete!");
 }
 
 main()
@@ -195,3 +76,77 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+function generateUserData(count: number) {
+  const result = [];
+  for (let i = 1; i <= count; i++) {
+    // Replace these with realistic or random values if desired
+    result.push({
+      username: `user${i}`,
+      workEmail: `user${i}@example.com`,
+      // Use a simple hash or random string for demonstration
+      password_hash: "somehashedpassword",
+      user_role: UserRole.user,
+      firstName: `FirstName${i}`,
+      lastName: `LastName${i}`,
+      workPhone: "555-555-0000",
+      receiveScheduleByEmail: Math.random() > 0.5 ? true : false,
+      // Optionally fill in more fields:
+      personalEmail: `personal${i}@example.com`,
+      personalPhone: `555-555-100${i}`,
+      about: "Lorem ipsum dolor sit amet.",
+      addressLine1: "123 Main St",
+      city: "Example City",
+      state: "EX",
+      postalCode: `1234${i}`,
+      country: "Example Country",
+      jobRole: pickRandomJobRole(),
+      certifications: "Basic, Advanced", // Or random
+    });
+  }
+  return result;
+}
+
+/**
+ * Pick n random distinct items from an array.
+ */
+function pickRandomItems<T>(arr: T[], n: number): T[] {
+  if (n >= arr.length) return arr;
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, n);
+}
+
+/**
+ * Pick a random ShiftRole.
+ */
+function randomShiftRoleEnumValue(): ShiftRole {
+  const roles = [
+    ShiftRole.QM,
+    ShiftRole.SL,
+    ShiftRole.ASL,
+    ShiftRole.TR,
+    ShiftRole.SH,
+    ShiftRole.CI,
+    ShiftRole.NR,
+  ];
+  const randIndex = Math.floor(Math.random() * roles.length);
+  return roles[randIndex];
+}
+
+/**
+ * Pick a random JobRole from the enum.
+ */
+function pickRandomJobRole(): JobRole {
+  const roles = [
+    JobRole.TEAM_LEADER,
+    JobRole.TECHNICAL_SUPPORT,
+    JobRole.SERVICE_DESK_ASSOCIATE,
+    JobRole.IITC,
+  ];
+  const randIndex = Math.floor(Math.random() * roles.length);
+  return roles[randIndex];
+}
