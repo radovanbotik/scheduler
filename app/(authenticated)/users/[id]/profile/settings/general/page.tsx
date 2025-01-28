@@ -1,11 +1,27 @@
-export default function page() {
+import { prisma } from "@/prisma/prisma";
+
+export default async function page({
+  params,
+}: Readonly<{
+  params: Promise<{ id: string }>;
+}>) {
+  const id = (await params).id;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      user_id: id,
+    },
+  });
+
+  console.log(user);
+
   return (
-    <main className="//lg:py-20 //py-6 px-4 sm:px-6 lg:flex-auto lg:px-0">
+    <main className="sm:px-6 lg:flex-auto">
       <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
         <div>
           <h2 className="text-base/7 font-semibold text-gray-900">Profile</h2>
           <p className="mt-1 text-sm/6 text-gray-500">
-            Your teammates can see this information
+            Others can see this information
           </p>
 
           <dl className="mt-6 divide-y divide-vodafone-gray-100 border-t border-vodafone-gray-200 text-sm/6">
@@ -14,7 +30,9 @@ export default function page() {
                 Full name
               </dt>
               <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div className="text-gray-900">Rado Botik</div>
+                <div className="capitalize text-gray-900">
+                  {user?.firstName} {user?.lastName}
+                </div>
                 <button
                   type="button"
                   className="font-semibold text-vodafone-600 hover:text-vodafone-500"
@@ -28,7 +46,7 @@ export default function page() {
                 Email address
               </dt>
               <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div className="text-gray-900">rado@work.com</div>
+                <div className="text-gray-900">{user?.workEmail}</div>
                 <button
                   type="button"
                   className="font-semibold text-vodafone-600 hover:text-vodafone-500"
@@ -42,9 +60,7 @@ export default function page() {
                 Title
               </dt>
               <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div className="text-gray-900">
-                  Technical Support Specialist
-                </div>
+                <div className="text-gray-900">{user?.jobRole}</div>
                 <button
                   type="button"
                   className="font-semibold text-vodafone-600 hover:text-vodafone-500"
@@ -69,7 +85,9 @@ export default function page() {
             className="mt-6 divide-y divide-vodafone-gray-100 border-t border-vodafone-gray-200 text-sm/6"
           >
             <li className="flex justify-between gap-x-6 py-6">
-              <div className="font-medium text-gray-900">rado@personal.com</div>
+              <div className="font-medium text-gray-900">
+                {user?.personalEmail}
+              </div>
               <button
                 type="button"
                 className="font-semibold text-vodafone-600 hover:text-vodafone-500"

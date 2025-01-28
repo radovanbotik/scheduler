@@ -15,8 +15,6 @@ export default async function Page({
     },
   });
 
-  console.log(user);
-
   if (!user)
     return (
       <div className="//lg:mt-6">
