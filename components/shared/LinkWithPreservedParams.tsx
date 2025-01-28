@@ -2,6 +2,7 @@
 
 import Link, { LinkProps } from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export function LinkWithPreservedParams({
   href,
@@ -12,8 +13,10 @@ export function LinkWithPreservedParams({
   const params = new URLSearchParams(searchParams);
 
   return (
-    <Link href={`${href}?${params.toString()}`} {...props}>
-      {children}
-    </Link>
+    <Suspense>
+      <Link href={`${href}?${params.toString()}`} {...props}>
+        {children}
+      </Link>
+    </Suspense>
   );
 }
