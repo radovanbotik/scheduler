@@ -4,7 +4,7 @@
 import { lastDayOfMonth, startOfMonth } from "date-fns";
 import { prisma } from "@/prisma/prisma";
 import { MonthView } from "./month-view/MonthView";
-import { Controls } from "./Controls";
+import { Controls } from "./controls/Controls";
 
 async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");

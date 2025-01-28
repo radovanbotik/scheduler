@@ -23,7 +23,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getCalendarDays } from "@/lib/utility/calendar";
 import { DescriptionList } from "./DescriptionList";
 import { DaysOfWeek } from "./DaysOfWeek";
-import { Controls } from "../Controls";
+import { Controls } from "../controls/Controls";
 
 type MonthViewProps = {
   currentDate: Date;
@@ -89,7 +89,7 @@ export function MonthViewSkeleton({ currentDate: serverDate }: MonthViewProps) {
 
                     <div
                       role="status"
-                      className="animate-pulse-fast group w-full"
+                      className="group w-full animate-pulse-fast"
                     >
                       <div className="2-full mb-4 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700"></div>
                       <div className="mb-2.5 h-2 max-w-[140px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
