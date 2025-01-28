@@ -41,7 +41,7 @@ export async function Table() {
 
   return (
     <div>
-      <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-2xl">
+      <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-lg">
         {new Date(2025, 0).toLocaleDateString("en-US", {
           month: "long",
           year: "numeric",

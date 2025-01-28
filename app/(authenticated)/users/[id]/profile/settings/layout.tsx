@@ -39,7 +39,7 @@ export default async function layout({
   return (
     <div className="//lg:mt-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-0">
-        {/* <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-2xl">
+        {/* <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-lg">
         Profile settings
       </h2> */}
 

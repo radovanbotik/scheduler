@@ -1,48 +1,70 @@
 import { PaperClipIcon } from "@heroicons/react/20/solid";
+import { User } from "@prisma/client";
 
-export default function DescriptionList() {
+type TDescriptionList = User;
+
+export default function DescriptionList({
+  firstName,
+  lastName,
+  workEmail,
+  personalEmail,
+  workPhone,
+  personalPhone,
+  jobRole,
+  addressLine1,
+  addressLine2,
+  about,
+  certifications,
+}: User) {
   return (
     <div>
       <dl className="divide-y divide-vodafone-gray-100">
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">Full name</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            Margot Foster
+            {firstName} {lastName}
           </dd>
         </div>
-        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt className="text-sm/6 font-medium text-gray-900">
-            Application for
-          </dt>
-          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            Backend Developer
-          </dd>
-        </div>
+
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            margotfoster@example.com
+            {workEmail}
+          </dd>
+        </div>
+        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt className="text-sm/6 font-medium text-gray-900">Phone number</dt>
+          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {workPhone}
+          </dd>
+        </div>
+        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt className="text-sm/6 font-medium text-gray-900">Role</dt>
+          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {jobRole}
+          </dd>
+        </div>
+        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt className="text-sm/6 font-medium text-gray-900">Location</dt>
+          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {addressLine1} {addressLine2}
           </dd>
         </div>
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">
-            Salary expectation
+            Certifications
           </dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            $120,000
+            {certifications}
           </dd>
         </div>
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">About</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-            incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-            consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-            proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit
-            deserunt qui eu.
+            {about}
           </dd>
         </div>
-        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm/6 font-medium text-gray-900">Attachments</dt>
           <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
             <ul
@@ -95,7 +117,7 @@ export default function DescriptionList() {
               </li>
             </ul>
           </dd>
-        </div>
+        </div> */}
       </dl>
     </div>
   );

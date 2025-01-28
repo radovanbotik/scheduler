@@ -15,6 +15,8 @@ export default async function Page({
     },
   });
 
+  console.log(user);
+
   if (!user)
     return (
       <div className="//lg:mt-6">
@@ -25,8 +27,14 @@ export default async function Page({
   return (
     <div className="//lg:mt-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-0">
-        <Heading username={user.username} role={user.user_role} />
-        <DescriptionList />
+        <Heading
+          firstName={user.firstName}
+          lastName={user.lastName}
+          jobRole={user.jobRole}
+          profilePicture={user.profilePicture}
+          workEmail={user.workEmail}
+        />
+        <DescriptionList {...user} />
       </div>
     </div>
   );

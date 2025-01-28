@@ -1,6 +1,9 @@
 import { Avatar } from "@/components/shared/Avatar";
+import { prisma } from "@/prisma/prisma";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { User } from "@prisma/client";
+import Link from "next/link";
 
 const people = [
   {
@@ -105,17 +108,28 @@ const people = [
   },
 ];
 
-export default function Example() {
+async function getTeamMembers(): Promise<User[]> {
+  try {
+    const users = await prisma.user.findMany();
+    return users;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+export default async function page() {
+  const teamMembers = await getTeamMembers();
+
   return (
     <div className="//lg:mt-6">
       <div className="mx-auto max-w-7xl px-6 lg:px-0">
-        <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-2xl">
+        <h2 className="text-balance font-semibold tracking-tight text-gray-900 sm:text-lg">
           Team Inventory
         </h2>
         <ul role="list" className="mt-10 divide-y divide-vodafone-gray-100">
-          {people.map((person) => (
+          {teamMembers.map((agent) => (
             <li
-              key={person.email}
+              key={agent.user_id}
               className="flex justify-between gap-x-6 py-5"
             >
               <div className="flex min-w-0 gap-x-4">
@@ -123,24 +137,27 @@ export default function Example() {
 
                 <div className="min-w-0 flex-auto">
                   <p className="text-sm/6 font-semibold text-gray-900">
-                    <a href={person.href} className="hover:underline">
-                      {person.name}
-                    </a>
+                    <Link
+                      href={`/users/${agent.user_id}/profile`}
+                      className="hover:underline"
+                    >
+                      {agent.firstName} {agent.lastName}
+                    </Link>
                   </p>
                   <p className="mt-1 flex text-xs/5 text-gray-500">
                     <a
-                      href={`mailto:${person.email}`}
+                      href={`mailto:${agent.workEmail}`}
                       className="truncate hover:underline"
                     >
-                      {person.email}
+                      {agent.workEmail}
                     </a>
                   </p>
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-x-6">
                 <div className="hidden sm:flex sm:flex-col sm:items-end">
-                  <p className="text-sm/6 text-gray-900">{person.role}</p>
-                  {person.lastSeen ? (
+                  <p className="text-sm/6 text-gray-900">{agent.jobRole}</p>
+                  {/* {person.lastSeen ? (
                     <p className="mt-1 text-xs/5 text-gray-500">
                       Last seen{" "}
                       <time dateTime={person.lastSeenDateTime}>
@@ -154,7 +171,7 @@ export default function Example() {
                       </div>
                       <p className="text-xs/5 text-gray-500">Online</p>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <Menu as="div" className="relative flex-none">
                   <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
@@ -169,20 +186,25 @@ export default function Example() {
                     className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-vodafone-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                   >
                     <MenuItem>
-                      <a
-                        href={person.href}
+                      <Link
+                        href={`/users/${agent.user_id}/profile`}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
                         View profile
-                        <span className="sr-only">, {person.name}</span>
-                      </a>
+                        <span className="sr-only">
+                          , {agent.firstName} {agent.lastName}
+                        </span>
+                      </Link>
                     </MenuItem>
                     <MenuItem>
                       <a
                         href="#"
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                       >
-                        Message<span className="sr-only">, {person.name}</span>
+                        Message
+                        <span className="sr-only">
+                          , {agent.firstName} {agent.lastName}
+                        </span>
                       </a>
                     </MenuItem>
                   </MenuItems>
