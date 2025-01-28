@@ -1,24 +1,10 @@
 "use client";
 
+import { LinkWithPreservedParams } from "@/components/shared/LinkWithPreservedParams";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link, { LinkProps } from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-
-function LinkWithPreservedParams({
-  href,
-  children,
-  ...props
-}: LinkProps & { children: React.ReactNode; className: string }) {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-
-  return (
-    <Link href={`${href}?${params.toString()}`} {...props}>
-      {children}
-    </Link>
-  );
-}
 
 export function DesktopViewControl() {
   const pathname = usePathname();

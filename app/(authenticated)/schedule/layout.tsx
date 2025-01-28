@@ -1,3 +1,4 @@
+"use server";
 import { Controls } from "@/components/views/CalendarDataLayer/controls/Controls";
 
 export default async function Layout({
