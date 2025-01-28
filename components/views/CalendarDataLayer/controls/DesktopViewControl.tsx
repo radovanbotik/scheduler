@@ -1,15 +1,40 @@
+"use client";
+
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+
+function LinkWithPreservedParams({
+  href,
+  children,
+  ...props
+}: LinkProps & { children: React.ReactNode; className: string }) {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  return (
+    <Link href={`${href}?${params.toString()}`} {...props}>
+      {children}
+    </Link>
+  );
+}
 
 export function DesktopViewControl() {
+  const pathname = usePathname();
+
+  const viewOptions: Record<string, string> = {
+    "/schedule/my-view": "My view",
+    "/schedule/team-view": "Team view",
+  };
+
   return (
     <Menu as="div" className="relative hidden md:ml-4 md:block">
       <MenuButton
         type="button"
         className="flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-vodafone-gray-300 hover:bg-gray-50"
       >
-        Team view
+        {viewOptions[pathname]}
         <ChevronDownIcon
           className="-mr-1 size-5 text-gray-400"
           aria-hidden="true"
@@ -22,20 +47,20 @@ export function DesktopViewControl() {
       >
         <div className="py-1">
           <MenuItem>
-            <Link
-              href="#"
+            <LinkWithPreservedParams
+              href="/schedule/team-view"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
             >
               Team view
-            </Link>
+            </LinkWithPreservedParams>
           </MenuItem>
           <MenuItem>
-            <Link
-              href="#"
+            <LinkWithPreservedParams
+              href="/schedule/my-view"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
             >
               My View
-            </Link>
+            </LinkWithPreservedParams>
           </MenuItem>
         </div>
       </MenuItems>
