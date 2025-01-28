@@ -8,15 +8,26 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { format } from "date-fns";
+import { addMonths, format, subMonths } from "date-fns";
+import { useRouter } from "next/navigation";
 
 type THeader = {
   currentDate: Date;
-  prevMonth: (date: Date) => void;
-  nextMonth: (date: Date) => void;
 };
 
-export function Controls({ currentDate, prevMonth, nextMonth }: THeader) {
+export function Controls({ currentDate }: THeader) {
+  const router = useRouter();
+
+  function prevMonth(currentDate: Date) {
+    const prev = subMonths(currentDate, 1);
+    router.push(`?date=${prev.toISOString()}`);
+  }
+
+  function nextMonth(currentDate: Date) {
+    const next = addMonths(currentDate, 1);
+    router.push(`?date=${next.toISOString()}`);
+  }
+
   return (
     <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">
       <h1 className="text-base font-semibold text-gray-900">

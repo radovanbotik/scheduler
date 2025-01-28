@@ -4,6 +4,7 @@
 import { lastDayOfMonth, startOfMonth } from "date-fns";
 import { prisma } from "@/prisma/prisma";
 import { MonthView } from "./month-view/MonthView";
+import { Controls } from "./Controls";
 
 async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");
@@ -73,10 +74,17 @@ export async function CalendarDataLayer({
 
   // 3) Render a client component and pass the fetched data
   return (
-    <MonthView
-      currentDate={currentDate}
-      shiftPatterns={shiftPatterns || []}
-      shifts={shifts || []}
-    />
+    <>
+      <Controls
+        currentDate={currentDate}
+        // prevMonth={handlePrevMonth}
+        // nextMonth={handleNextMonth}
+      />
+      <MonthView
+        currentDate={currentDate}
+        shiftPatterns={shiftPatterns || []}
+        shifts={shifts || []}
+      />
+    </>
   );
 }
