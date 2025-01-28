@@ -43,7 +43,7 @@ export default async function layout({
         Profile settings
       </h2> */}
 
-        <div className="//lg:px-8 mx-auto mt-10 lg:flex lg:gap-x-16">
+        <div className="//lg:px-8 //mt-10 mx-auto lg:flex lg:gap-x-16">
           <aside className="//lg:py-20 flex overflow-x-auto border-b border-vodafone-gray-900/5 py-6 lg:block lg:w-64 lg:flex-none lg:border-0">
             <nav className="flex-none px-4 sm:px-6 lg:px-0">
               <ul

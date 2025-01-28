@@ -1,8 +1,7 @@
 // import type { Metadata } from "next";
 // import "./globals.css";
 
-import RLayout from "@/components/layout/RLayout";
-import Container from "@/components/shared/Container";
+import LayoutDataLayer from "@/components/layout/LayoutDataLayer";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -16,7 +15,8 @@ export default function Layout({
 }>) {
   return (
     // <Container>
-    <RLayout>{children}</RLayout>
+    <LayoutDataLayer>{children}</LayoutDataLayer>
+    // <RLayout>{children}</RLayout>
     // </Container>
   );
 }
