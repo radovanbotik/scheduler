@@ -1,37 +1,45 @@
 "use client";
 
 import { addMonths, format, subMonths } from "date-fns";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DesktopViewControl } from "./DesktopViewControl";
 import { Admin } from "./Admin";
 import { SharedDateControls } from "./SharedDateControls";
 import { MobileViewControls } from "./MobileViewControls";
 import { getCalendarDays } from "@/lib/utility/calendar";
+import { useEffect, useState } from "react";
 
 type THeader = {
-  currentDate: Date;
+  serverDate: Date;
 };
 
-export function Controls({ currentDate }: THeader) {
+export function Controls({ serverDate }: THeader) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [currentDate, setCurrentDate] = useState(serverDate);
 
-  const rangeOfDays = getCalendarDays(currentDate);
-  console.log(rangeOfDays);
-
-  const firstDate = rangeOfDays[0];
-  const lastDate = rangeOfDays[rangeOfDays.length];
+  useEffect(() => {
+    const dateParam = searchParams.get("date");
+    if (dateParam) {
+      setCurrentDate(new Date(dateParam));
+    }
+  }, [searchParams]);
 
   function prevMonth(currentDate: Date) {
     const prev = subMonths(currentDate, 1);
+    setCurrentDate(prev); // Update local state
     router.push(`?date=${prev.toISOString()}`);
   }
 
   function nextMonth(currentDate: Date) {
     const next = addMonths(currentDate, 1);
+    setCurrentDate(next); // Update local state
     router.push(`?date=${next.toISOString()}`);
   }
 
   const isAdmin = false;
+
+  console.log(currentDate);
 
   return (
     <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">

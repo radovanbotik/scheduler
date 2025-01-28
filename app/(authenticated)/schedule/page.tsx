@@ -11,14 +11,12 @@ export default async function page({
   const currentDate = dateParam ? new Date(dateParam) : new Date();
 
   // console.log(currentDate);
-
+  return <></>;
   return (
-    <div className="//lg:mt-6">
-      <div className="mx-auto max-w-7xl px-6 lg:px-0">
-        <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
-          <CalendarDataLayer currentDate={currentDate} />
-        </Suspense>
-      </div>
+    <div className="mx-auto max-w-7xl px-6 lg:px-0">
+      <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
+        <CalendarDataLayer currentDate={currentDate} />
+      </Suspense>
     </div>
   );
 }
