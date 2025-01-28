@@ -10,7 +10,8 @@ async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");
 
   const firstDayInMonth = getCalendarDays(date)[0];
-  const lastDayInMonth = getCalendarDays(date)[getCalendarDays(date).length];
+  const lastDayInMonth =
+    getCalendarDays(date)[getCalendarDays(date).length - 1];
   try {
     const shifts = await prisma.shift.findMany({
       where: {
@@ -74,11 +75,13 @@ export default async function page({
 
   return (
     <>
-      <MonthView
-        currentDate={currentDate}
-        shiftPatterns={shiftPatterns || []}
-        shifts={shifts || []}
-      />
+      <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
+        <MonthView
+          currentDate={currentDate}
+          shiftPatterns={shiftPatterns || []}
+          shifts={shifts || []}
+        />
+      </Suspense>
     </>
   );
 }
