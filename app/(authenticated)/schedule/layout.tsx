@@ -1,5 +1,6 @@
 "use server";
 import { Controls } from "@/components/views/CalendarDataLayer/controls/Controls";
+import { MonthViewSkeleton } from "@/components/views/CalendarDataLayer/month-view/MonthViewSketeleton";
 import { Suspense } from "react";
 
 export default async function Layout({
@@ -17,7 +18,9 @@ export default async function Layout({
       <Suspense>
         <Controls serverDate={currentDate} />
       </Suspense>
-      {children}
+      <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
+        {children}
+      </Suspense>
     </div>
   );
 }

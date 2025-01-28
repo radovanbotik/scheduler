@@ -55,11 +55,7 @@ export function SharedDateControls({
         <ChevronLeftIcon className="size-5" aria-hidden="true" />
       </Button>
 
-      <Button
-        position="MIDDLE"
-        screenReaderText={currentDate.toDateString()}
-        onClick={() => prevMonth(currentDate)}
-      >
+      <Button position="MIDDLE" screenReaderText={currentDate.toDateString()}>
         {format(currentDate, "MMMM")}
       </Button>
 
