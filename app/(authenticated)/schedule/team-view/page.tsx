@@ -1,7 +1,7 @@
 "use server";
 
-import { MonthView } from "@/components/views/CalendarDataLayer/month-view/MonthView";
-import { MonthViewSkeleton } from "@/components/views/CalendarDataLayer/month-view/MonthViewSketeleton";
+import { TeamView } from "@/components/views/CalendarDataLayer/team-view/TeamView";
+import { TeamViewSkeleton } from "@/components/views/CalendarDataLayer/team-view/TeamViewSketeleton";
 import { getCalendarDays } from "@/lib/utility/calendar";
 import { prisma } from "@/prisma/prisma";
 import { Suspense } from "react";
@@ -75,8 +75,8 @@ export default async function page({
 
   return (
     <>
-      <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
-        <MonthView
+      <Suspense fallback={<TeamViewSkeleton currentDate={currentDate} />}>
+        <TeamView
           currentDate={currentDate}
           shiftPatterns={shiftPatterns || []}
           shifts={shifts || []}

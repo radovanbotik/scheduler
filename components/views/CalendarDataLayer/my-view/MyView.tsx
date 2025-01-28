@@ -7,8 +7,8 @@ import { ShiftWithDetails } from "@/app/api/getShifts/route";
 import { cn } from "@/lib/utility/cn";
 import { Modal } from "@/components/shared/Modal";
 import { getCalendarDays } from "@/lib/utility/calendar";
-import { DaysOfWeek } from "../month-view/DaysOfWeek";
-import { DescriptionList } from "../month-view/DescriptionList";
+import { DaysOfWeek } from "../team-view/DaysOfWeek";
+import { DescriptionList } from "../team-view/DescriptionList";
 import { AgentShift } from "@/app/(authenticated)/schedule/my-view/page";
 
 type MonthViewProps = {

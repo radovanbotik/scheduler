@@ -6,11 +6,11 @@ import { getCalendarDays } from "@/lib/utility/calendar";
 import { DaysOfWeek } from "./DaysOfWeek";
 import { Controls } from "../controls/Controls";
 
-type MonthViewProps = {
+type TeamViewProps = {
   currentDate: Date;
 };
 
-export function MonthViewSkeleton({ currentDate: serverDate }: MonthViewProps) {
+export function TeamViewSkeleton({ currentDate: serverDate }: TeamViewProps) {
   const calendarDays = getCalendarDays(serverDate);
 
   return (

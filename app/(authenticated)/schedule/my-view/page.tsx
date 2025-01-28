@@ -1,10 +1,32 @@
 "use server";
 
-import { MonthViewSkeleton } from "@/components/views/CalendarDataLayer/month-view/MonthViewSketeleton";
+import { TeamViewSkeleton } from "@/components/views/CalendarDataLayer/team-view/TeamViewSketeleton";
 import { MyView } from "@/components/views/CalendarDataLayer/my-view/MyView";
 import { getCalendarDays } from "@/lib/utility/calendar";
 import { prisma } from "@/prisma/prisma";
 import { Suspense } from "react";
+
+export type AgentShift = {
+  shift_id: string;
+  shift_date: Date;
+  pattern: {
+    pattern_id: string;
+    shift_name: string;
+    start_time: string;
+    end_time: string;
+  };
+  ShiftAssignments: {
+    assignment_id: string;
+    user_id: string;
+    shift_role: string;
+    user: {
+      firstName: string | null;
+      lastName: string | null;
+      username: string;
+      profilePicture: string | null;
+    };
+  }[];
+};
 
 async function getShifts(date: Date) {
   if (!date) throw new Error("invalid date");
@@ -59,28 +81,6 @@ async function getShiftPatterns() {
     return [];
   }
 }
-
-export type AgentShift = {
-  shift_id: string;
-  shift_date: Date;
-  pattern: {
-    pattern_id: string;
-    shift_name: string;
-    start_time: string;
-    end_time: string;
-  };
-  ShiftAssignments: {
-    assignment_id: string;
-    user_id: string;
-    shift_role: string;
-    user: {
-      firstName: string | null;
-      lastName: string | null;
-      username: string;
-      profilePicture: string | null;
-    };
-  }[];
-};
 
 async function getAgentShifts(date: Date, agentId: string) {
   if (!date) throw new Error("Invalid date");
@@ -149,7 +149,7 @@ export default async function page({
 
   return (
     <>
-      <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
+      <Suspense fallback={<TeamViewSkeleton currentDate={currentDate} />}>
         <MyView
           currentDate={currentDate}
           shiftPatterns={shiftPatterns || []}

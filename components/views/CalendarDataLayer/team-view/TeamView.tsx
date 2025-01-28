@@ -10,17 +10,17 @@ import { getCalendarDays } from "@/lib/utility/calendar";
 import { DescriptionList } from "./DescriptionList";
 import { DaysOfWeek } from "./DaysOfWeek";
 
-type MonthViewProps = {
+type TeamViewProps = {
   currentDate: Date;
   shiftPatterns: ShiftPattern[];
   shifts: ShiftWithDetails[];
 };
 
-export function MonthView({
+export function TeamView({
   currentDate: serverDate,
   shiftPatterns,
   shifts,
-}: MonthViewProps) {
+}: TeamViewProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedShift, setSelectedShift] = useState<ShiftWithDetails>();
 
