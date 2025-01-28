@@ -27,10 +27,10 @@ export function DescriptionList({ ShiftAssignments }: ShiftWithDetails) {
               </p>
               <p className="mt-1 flex text-xs/5 text-gray-500">
                 <a
-                  href={`mailto:${assignment.user.email}`}
+                  href={`mailto:${assignment.user.personalEmail}`}
                   className="truncate hover:underline"
                 >
-                  {assignment.user.email}
+                  {assignment.user.personalEmail}
                 </a>
               </p>
             </div>
@@ -80,7 +80,9 @@ export function DescriptionList({ ShiftAssignments }: ShiftWithDetails) {
                     className="block px-3 py-1 text-sm/6 text-gray-900 data-[focus]:bg-gray-50 data-[focus]:outline-none"
                   >
                     Message
-                    <span className="sr-only">, {assignment.user.email}</span>
+                    <span className="sr-only">
+                      , {assignment.user.firstName}
+                    </span>
                   </a>
                 </MenuItem>
               </MenuItems>
