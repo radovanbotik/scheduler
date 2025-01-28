@@ -73,16 +73,12 @@ export default async function page({
   ]);
 
   return (
-    <div className="//lg:mt-6">
-      <div className="mx-auto max-w-7xl px-6 lg:px-0">
-        <Suspense fallback={<MonthViewSkeleton currentDate={currentDate} />}>
-          <MonthView
-            currentDate={currentDate}
-            shiftPatterns={shiftPatterns || []}
-            shifts={shifts || []}
-          />
-        </Suspense>
-      </div>
-    </div>
+    <>
+      <MonthView
+        currentDate={currentDate}
+        shiftPatterns={shiftPatterns || []}
+        shifts={shifts || []}
+      />
+    </>
   );
 }
