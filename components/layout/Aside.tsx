@@ -2,25 +2,32 @@ import {
   BookmarkSquareIcon,
   CalendarDaysIcon,
   ArrowDownTrayIcon,
+  EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import Feed from "./Feed";
 
 const resources = [
   {
-    name: "Download schedule",
-    description: "Download your current schedule",
+    name: "Email Schedule",
+    description: "Receive your current schedule via email.",
+    href: "#",
+    icon: EnvelopeIcon,
+  },
+  {
+    name: "Download Schedule",
+    description: "Obtain a copy of your current schedule.",
     href: "#",
     icon: ArrowDownTrayIcon,
   },
   {
-    name: "Guides",
-    description: "Learn from available materials",
+    name: "Guides & Resources",
+    description: "Access helpful guides and learning materials.",
     href: "#",
     icon: BookmarkSquareIcon,
   },
   {
     name: "Events",
-    description: "Scheduled meet-ups and other events",
+    description: "View upcoming scheduled events and meetups.",
     href: "#",
     icon: CalendarDaysIcon,
   },
@@ -52,8 +59,9 @@ const recentPosts = [
 
 export default function Aside() {
   return (
-    <div className="flex h-full flex-col justify-between space-y-4 overflow-hidden text-sm/6">
-      <div>
+    <div className="//overflow-hidden //space-y-4 //divide-y //divide-vodafone-gray-100 //justify-between //justify-end //pt-4 flex h-full flex-col pb-16 text-sm/6">
+      {/* <Feed /> */}
+      <div className="h-fit">
         {resources.map((item) => (
           <div
             key={item.name}
@@ -75,8 +83,6 @@ export default function Aside() {
           </div>
         ))}
       </div>
-
-      <Feed />
     </div>
   );
 }

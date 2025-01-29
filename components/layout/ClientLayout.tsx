@@ -49,7 +49,7 @@ export function ClientLayout({ user, children }: TClientLayout) {
         </main>
       </div>
 
-      <aside className="fixed bottom-0 left-20 top-16 hidden w-96 overflow-y-auto border-r border-vodafone-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+      <aside className="fixed bottom-0 left-20 top-16 hidden h-full w-96 overflow-y-auto border-r border-vodafone-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
         <Aside />
       </aside>
     </div>

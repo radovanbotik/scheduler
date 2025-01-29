@@ -61,7 +61,9 @@ const timeline = [
 
 export default function Example() {
   return (
-    <div className="flow-root rounded-md bg-vodafone-gray-50 p-8">
+    <div className="flow-root rounded-md bg-vodafone-gray-50 px-8 py-4">
+      <h2 className="pb-4 text-lg font-bold">Activity feed</h2>
+
       <ul role="list" className="-mb-8">
         {timeline.map((event, eventIdx) => (
           <li key={event.id}>
