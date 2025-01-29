@@ -1,7 +1,10 @@
+"use client";
+
 import { cn } from "@/lib/utility/cn";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
+import { Notification } from "./Notification";
 
 type TDateControls = {
   currentDate: Date;
@@ -45,29 +48,35 @@ export function SharedDateControls({
   prevMonth,
 }: TDateControls) {
   return (
-    <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-      {/* PREVIOUS MONTH CONTROL */}
-      <Button
-        position="LEFT"
-        screenReaderText="Previous month"
-        onClick={() => prevMonth(currentDate)}
-      >
-        <ChevronLeftIcon className="size-5" aria-hidden="true" />
-      </Button>
+    <>
+      <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+        {/* PREVIOUS MONTH CONTROL */}
+        <Button
+          position="LEFT"
+          screenReaderText="Previous month"
+          onClick={() => {
+            prevMonth(currentDate);
+          }}
+        >
+          <ChevronLeftIcon className="size-5" aria-hidden="true" />
+        </Button>
 
-      <Button position="MIDDLE" screenReaderText={currentDate.toDateString()}>
-        {format(currentDate, "MMMM")}
-      </Button>
+        <Button position="MIDDLE" screenReaderText={currentDate.toDateString()}>
+          {format(currentDate, "MMMM")}
+        </Button>
 
-      <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+        <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
 
-      <Button
-        position="RIGHT"
-        screenReaderText=">Next month"
-        onClick={() => nextMonth(currentDate)}
-      >
-        <ChevronRightIcon className="size-5" aria-hidden="true" />
-      </Button>
-    </div>
+        <Button
+          position="RIGHT"
+          screenReaderText=">Next month"
+          onClick={() => {
+            nextMonth(currentDate);
+          }}
+        >
+          <ChevronRightIcon className="size-5" aria-hidden="true" />
+        </Button>
+      </div>
+    </>
   );
 }

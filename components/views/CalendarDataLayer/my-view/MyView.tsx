@@ -75,7 +75,7 @@ export function MyView({
 
   return (
     <>
-      <div className="relative shadow ring-1 ring-black/5 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
+      <div className="relative shadow ring-1 ring-vodafone-gray-200 lg:flex lg:h-[calc(100vh-181px)] lg:flex-auto lg:flex-col lg:overflow-y-auto">
         <DaysOfWeek />
         <div className="isolate flex bg-vodafone-gray-200 text-xs/6 text-gray-700 lg:flex-auto">
           {/* Desktop View */}
@@ -91,7 +91,7 @@ export function MyView({
                     isSameMonth(day, serverDate)
                       ? "bg-white"
                       : "bg-vodafone-gray-50 text-gray-500",
-                    "relative space-y-1 px-3 py-2",
+                    "relative space-y-0.5 px-3 py-2",
                   )}
                 >
                   <time

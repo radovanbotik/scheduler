@@ -5,6 +5,7 @@ import { useState } from "react";
 import { MobileSidebar } from "./MobileSidebar";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { SharedHeader } from "./SharedHeader";
+import Aside from "./Aside";
 
 type TClientLayout = {
   user: User;
@@ -48,7 +49,9 @@ export function ClientLayout({ user, children }: TClientLayout) {
         </main>
       </div>
 
-      <aside className="fixed bottom-0 left-20 top-16 hidden w-96 overflow-y-auto border-r border-vodafone-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block"></aside>
+      <aside className="fixed bottom-0 left-20 top-16 hidden w-96 overflow-y-auto border-r border-vodafone-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+        <Aside />
+      </aside>
     </div>
   );
 }

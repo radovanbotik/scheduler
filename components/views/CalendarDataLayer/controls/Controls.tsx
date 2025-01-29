@@ -8,6 +8,7 @@ import { SharedDateControls } from "./SharedDateControls";
 import { MobileViewControls } from "./MobileViewControls";
 import { getCalendarDays } from "@/lib/utility/calendar";
 import { useEffect, useState } from "react";
+import { Notification } from "./Notification";
 
 type THeader = {
   serverDate: Date;
@@ -39,7 +40,11 @@ export function Controls({ serverDate }: THeader) {
 
   const isAdmin = false;
 
-  // console.log(currentDate);
+  const [show, setShow] = useState(false);
+
+  function dismiss() {
+    setShow(false);
+  }
 
   return (
     <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">
@@ -57,6 +62,7 @@ export function Controls({ serverDate }: THeader) {
         {isAdmin && <Admin />}
         <MobileViewControls isAdmin={isAdmin} />
       </div>
+      <Notification show={show} dismiss={dismiss} />
     </header>
   );
 }
