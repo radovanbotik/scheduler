@@ -3,15 +3,16 @@ import {
   CalendarDaysIcon,
   ArrowDownTrayIcon,
   EnvelopeIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import Feed from "./Feed";
 
 const resources = [
   {
-    name: "Email Schedule",
-    description: "Receive your current schedule via email.",
+    name: "My Requests",
+    description: "Track request progress.",
     href: "#",
-    icon: EnvelopeIcon,
+    icon: DocumentTextIcon,
   },
   {
     name: "Download Schedule",
@@ -19,6 +20,14 @@ const resources = [
     href: "#",
     icon: ArrowDownTrayIcon,
   },
+
+  {
+    name: "Email Schedule",
+    description: "Receive your current schedule via email.",
+    href: "#",
+    icon: EnvelopeIcon,
+  },
+
   {
     name: "Guides & Resources",
     description: "Access helpful guides and learning materials.",
