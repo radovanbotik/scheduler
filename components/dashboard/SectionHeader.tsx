@@ -8,7 +8,7 @@ const tabs = [
 
 export default function SectionHeader() {
   return (
-    <div className="border-b border-gray-200">
+    <div className="//border-b border-gray-200">
       <div className="px-4 sm:flex sm:items-baseline sm:px-6 xl:px-8">
         <h3 className="text-base font-semibold text-gray-900">Month Summary</h3>
         <div className="mt-4 sm:ml-10 sm:mt-0">

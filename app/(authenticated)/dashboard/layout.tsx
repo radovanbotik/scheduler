@@ -9,7 +9,7 @@ export default async function layout({
   searchParams?: Promise<{ date?: string }>;
 }>) {
   return (
-    <div>
+    <div className="space-y-8">
       <SectionHeader />
       {children}
       <Table />
