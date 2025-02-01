@@ -47,7 +47,7 @@ export function Controls({ serverDate }: THeader) {
   }
 
   return (
-    <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 py-4 lg:flex-none">
+    <header className="//px-6 flex items-center justify-between border-b border-vodafone-gray-200 pb-4 lg:flex-none">
       <h1 className="text-base font-semibold text-gray-900">
         <time dateTime="2022-01">{format(currentDate, "MMMM yyyy")}</time>
       </h1>
